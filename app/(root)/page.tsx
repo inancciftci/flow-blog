@@ -1,7 +1,11 @@
+import Hero from "@/components/Hero";
+import TrendingTopics from "@/components/TrendingTopics";
+
 export default function Home() {
   return (
-    <>
-      <h1>Flow Blog</h1>
-    </>
+    <section>
+      <Hero />
+      <TrendingTopics />
+    </section>
   );
 }

@@ -6,9 +6,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <main className="flex flex-col min-h-[100vh]" lang="en">
       <Header />
-      <section className="flex-1 p-4 max-w-[1280px] w-full mx-auto">
-        {children}
-      </section>
+      <section className="flex-1">{children}</section>
       <Footer />
     </main>
   );

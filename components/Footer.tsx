@@ -27,8 +27,8 @@ const quickLinks = [
 const Footer = () => {
   return (
     <footer className=" bg-dark-100">
-      <div className="max-w-[1280px] divide-y-[1px] mx-auto p-4 text-light-700 flex flex-col gap-4">
-        <div className="flex justify-between py-4">
+      <div className="container text-light-700 flex flex-col gap-4">
+        <div className="flex justify-between py-[3rem] border-b-[1px] border-slate-800">
           <Image
             className="invert"
             src={"/logo.svg"}
@@ -41,7 +41,7 @@ const Footer = () => {
             <Button className="button-primary">Download Now</Button>
           </div>
         </div>
-        <div className="flex gap-[5rem] pt-4">
+        <div className="flex gap-[5rem] border-b-[1px] border-slate-800 py-[3rem]">
           <div className="flex flex-col gap-4 w-[30%]">
             <h3 className="text-xl font-bold">About</h3>
             <p>
@@ -78,7 +78,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="pt-4">
+        <div className="pb-[1rem]">
           <p className="font-bold">
             © 2021, Flow - Design by{" "}
             <span className="text-[#ffcca4]">AliThemes</span>

@@ -14,24 +14,26 @@ const routes = [
 
 const Header = () => {
   return (
-    <header className="flex gap-[5rem] items-center p-4 w-full max-w-[1280px] mx-auto">
-      <Image src="/logo.svg" alt="logo" width={100} height={100} />
-      <div className="flex items-center justify-between w-full">
-        <ul className="flex gap-[2rem]">
-          {routes.map((route) => (
-            <li key={route.id}>
-              <Link className="font-bold text-slate-800" href={route.path}>
-                {" "}
-                {route.name}{" "}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="flex gap-[1rem] items-center">
-          <MagnifyingGlassIcon className="size-5" />
-          <Link href={"/"}>
-            <Button className="button-primary">Deneme</Button>
-          </Link>
+    <header className="border-b-[1px] py-[1.5rem] border-slate-100">
+      <div className="flex gap-[5rem] items-center container">
+        <Image src="/logo.svg" alt="logo" width={100} height={100} />
+        <div className="flex items-center justify-between w-full">
+          <ul className="flex gap-[2rem]">
+            {routes.map((route) => (
+              <li key={route.id}>
+                <Link className="font-bold text-slate-800" href={route.path}>
+                  {" "}
+                  {route.name}{" "}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="flex gap-[1rem] items-center">
+            <MagnifyingGlassIcon className="size-5" />
+            <Link href={"/"}>
+              <Button className="button-primary">Deneme</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </header>

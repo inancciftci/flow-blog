@@ -18,7 +18,10 @@ body {
 
 @layer utilities {
   .button-primary {
-    @apply bg-[#ffcca4] font-[600] text-slate-800;
+    @apply bg-primary-500 font-[600] text-slate-800;
     border-radius: var(--radius);
+  }
+  .container {
+    @apply py-4 px-10 max-w-[1280px] mx-auto;
   }
 }
