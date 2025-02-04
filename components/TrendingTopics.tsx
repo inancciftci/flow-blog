@@ -54,8 +54,11 @@ const dummyPosts = [
 
 const TrendingTopics = () => {
   return (
-    <section className="container ">
-      <h1 className="text-3xl text-slate-700 font-bold">Trending Topics</h1>
+    <section className="container relative">
+      <div className="w-[735px] h-[700px] bg-[#fff4ec] absolute left-[-15rem] top-[-4rem] -z-20 "></div>
+      <h1 className="text-3xl text-slate-700 font-bold pb-8">
+        Trending Topics
+      </h1>
       <div className="grid grid-cols-3 gap-10 my-[2.5rem]">
         {dummyPosts.map((post) => (
           <TrendingTopicsCard key={post.id} post={post} />

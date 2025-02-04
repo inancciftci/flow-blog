@@ -2,31 +2,28 @@ import Image from "next/image";
 import React from "react";
 import TagCard from "./ui/tagcard";
 import { dateToString } from "@/lib/helper";
+import { motion } from "framer-motion";
 
-// interface Post {
-//   id: number;
-//   title: string;
-//   description: string;
-//   image: string;
-//   date: string;
-//   tag: string;
-// }
+export interface Post {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  date: string;
+  tag: string;
+}
 
-const dummyPost = {
-  id: 1,
-  title: "30 Best Lifestyle Blogs to Follow in 2021",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
-  image:
-    "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-10.jpg",
-  date: "2021-09-01",
-  tag: "Lifestyle",
-};
+interface HeroCardProps {
+  post: Post;
+}
 
-const HeroCard = () => {
-  const post = dummyPost;
+const HeroCard = ({ post }: HeroCardProps) => {
   return (
-    <div className="grid grid-cols-2 items-center justify-center gap-10">
+    <motion.div
+      className="grid grid-cols-2 items-center container justify-center gap-10"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
       <div className="flex flex-col gap-8 py-4">
         <div className="flex gap-4 items-center">
           <TagCard tag={post.tag} />
@@ -43,7 +40,7 @@ const HeroCard = () => {
           fill
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
