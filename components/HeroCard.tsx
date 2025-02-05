@@ -20,11 +20,11 @@ interface HeroCardProps {
 const HeroCard = ({ post }: HeroCardProps) => {
   return (
     <motion.div
-      className="grid grid-cols-2 items-center container justify-center gap-10"
+      className="grid grid-cols-2 gap-10 max-md:grid-cols-1 max-md:"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="flex flex-col gap-8 py-4">
+      <div className="flex flex-col justify-center  gap-8 py-4">
         <div className="flex gap-4 items-center">
           <TagCard tag={post.tag} />
           <p className="text-slate-600">{dateToString(post.date)}</p>

@@ -9,7 +9,7 @@ const posts = [
     id: 1,
     title: "30 Best Lifestyle Blogs to Follow in 2021",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
     image:
       "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-10.jpg",
     date: "2021-09-01",
@@ -19,7 +19,7 @@ const posts = [
     id: 2,
     title: "9 Things I Love About Shaving My Head During Quarantine",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
     image:
       "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-11.jpg",
     date: "2021-02-01",
@@ -29,7 +29,7 @@ const posts = [
     id: 3,
     title: "Essential Quallities of Highly Successful Music in this year",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
     image:
       "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-12.jpg",
     date: "2021-05-01",
@@ -39,7 +39,7 @@ const posts = [
     id: 4,
     title: "Why We Need to Stop Talking About Food and Guilt",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
     image:
       "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-13.jpg",
     date: "2021-07-01",
@@ -83,32 +83,34 @@ const Hero = () => {
   };
 
   return (
-    <div className="flex items-center my-[2.5rem] relative">
-      <div className="w-[500px] h-[700px] bg-[#fff4ec] absolute right-0 top-[-15rem] -z-20"></div>
-      <ChevronLeftIcon
-        className="w-[50px] text-primary-500 cursor-pointer"
-        onClick={handlePrev}
-      />
+    <div className=" relative">
+      <div className="w-[40%] h-[55vh] bg-[#fff4ec] absolute right-0 top-[-15rem] -z-20"></div>
+      <div className="flex items-center my-[2.5rem]">
+        <ChevronLeftIcon
+          className="w-[50px] text-primary-500 cursor-pointer absolute left-0"
+          onClick={handlePrev}
+        />
 
-      <div className="container relative ">
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-          >
-            <HeroCard post={posts[currentIndex]} />
-          </motion.div>
-        </AnimatePresence>
+        <div className="container relative ">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={currentIndex}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+            >
+              <HeroCard post={posts[currentIndex]} />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <ChevronRightIcon
+          className="w-[50px] text-primary-500 cursor-pointer absolute right-0"
+          onClick={handleNext}
+        />
       </div>
-
-      <ChevronRightIcon
-        className="w-[50px] text-primary-500 cursor-pointer"
-        onClick={handleNext}
-      />
     </div>
   );
 };

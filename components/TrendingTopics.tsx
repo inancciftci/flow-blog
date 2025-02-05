@@ -54,15 +54,17 @@ const dummyPosts = [
 
 const TrendingTopics = () => {
   return (
-    <section className="container relative">
-      <div className="w-[735px] h-[700px] bg-[#fff4ec] absolute left-[-15rem] top-[-4rem] -z-20 "></div>
-      <h1 className="text-3xl text-slate-700 font-bold pb-8">
-        Trending Topics
-      </h1>
-      <div className="grid grid-cols-3 gap-10 my-[2.5rem]">
-        {dummyPosts.map((post) => (
-          <TrendingTopicsCard key={post.id} post={post} />
-        ))}
+    <section className="relative">
+      <div className="w-[45%] h-[90%] bg-[#fff4ec] absolute top-[-2rem] -z-20 "></div>
+      <div className="container">
+        <h1 className="text-5xl text-slate-700 font-bold pb-8">
+          Trending Topics
+        </h1>
+        <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-10 my-[2.5rem]">
+          {dummyPosts.map((post) => (
+            <TrendingTopicsCard key={post.id} post={post} />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -9,17 +9,17 @@ const TrendingTopicsCard = ({
   post: { id: number; title: string; tag: string; date: string; image: string };
 }) => {
   return (
-    <div className=" rounded-[1rem] overflow-hidden flex-flex-col shadow-lg">
+    <div className=" rounded-[1rem] overflow-hidden flex-flex-col shadow-lg hover:translate-y-[-1rem] duration-300">
       <div className="relative h-[200px]">
         <Image
-          className="object-cover z-[-1]"
+          className="object-cover"
           src={post.image}
           alt={post.title}
           fill
         />
         <TagCard absoluteTop tag={post.tag} />
       </div>
-      <div className="bg-white">
+      <div className="bg-white ]">
         <div className="flex gap-1 items-center pl-[2rem] pt-[1.5rem]">
           <ClockIcon className="size-5" />
           <p className="text-gray-600">{post.date}</p>
