@@ -24,12 +24,12 @@ const HeroCard = ({ post }: HeroCardProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="flex flex-col justify-center  gap-8 py-4">
+      <div className="flex flex-col justify-center max-md:items-center max-md:text-center max-md:py-0 gap-8 py-4">
         <div className="flex gap-4 items-center">
           <TagCard tag={post.tag} />
           <p className="text-slate-600">{dateToString(post.date)}</p>
         </div>
-        <h1 className="text-5xl font-bold">{post.title}</h1>
+        <h1 className="text-5xl max-md:text-4xl font-bold">{post.title}</h1>
         <p className="text-slate-600">{post.description}</p>
       </div>
       <div className="relative h-[100%] aspect-square rounded-lg overflow-hidden">

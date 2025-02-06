@@ -87,7 +87,7 @@ const Hero = () => {
       <div className="w-[40%] h-[55vh] bg-[#fff4ec] absolute right-0 top-[-15rem] -z-20"></div>
       <div className="flex items-center my-[2.5rem]">
         <ChevronLeftIcon
-          className="w-[50px] text-primary-500 cursor-pointer absolute left-0"
+          className="w-[50px] text-primary-500 cursor-pointer absolute left-0 z-[100]"
           onClick={handlePrev}
         />
 

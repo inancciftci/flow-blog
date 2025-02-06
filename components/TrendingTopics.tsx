@@ -57,7 +57,7 @@ const TrendingTopics = () => {
     <section className="relative">
       <div className="w-[45%] h-[90%] bg-[#fff4ec] absolute top-[-2rem] -z-20 "></div>
       <div className="container">
-        <h1 className="text-5xl text-slate-700 font-bold pb-8">
+        <h1 className="text-5xl text-slate-700 font-bold mb-24 max-md:text-center max-md:mb-14 max-md:text-4xl">
           Trending Topics
         </h1>
         <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-10 my-[2.5rem]">

@@ -14,7 +14,7 @@ const routes = [
 
 const Header = () => {
   return (
-    <header className="border-b-[1px] py-[1.5rem] max-sm:bg-white border-slate-100">
+    <header className="border-b-[1px] py-[1.5rem] max-md:py-[0.5rem] max-sm:bg-white border-slate-100">
       <div className="flex gap-[5rem] max-sm:justify-center items-center container">
         <Image src="/logo.svg" alt="logo" width={100} height={100} />
         <div className="flex items-center justify-between w-full max-sm:hidden">

@@ -77,8 +77,8 @@ const EditorsPick = () => {
     }),
   };
   return (
-    <section className="container relative">
-      <h1 className="text-5xl text-slate-700 font-bold pb-8">
+    <section className="container relative my-10 max-md:my-0">
+      <h1 className="text-5xl text-slate-700 font-bold mb-24 max-md:text-center max-md:mb-14">
         Editor&apos;s picked
       </h1>
       <AnimatePresence mode="wait" custom={direction}>
