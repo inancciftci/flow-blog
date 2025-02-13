@@ -9,11 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-import {
-  GlobeAmericasIcon,
-  MapPinIcon,
-  PhoneIcon,
-} from "@heroicons/react/20/solid";
+import { MapPinIcon, PhoneIcon } from "@heroicons/react/20/solid";
 
 const ContactForm = () => {
   const form = useForm<z.infer<typeof ContactFormSchema>>({
