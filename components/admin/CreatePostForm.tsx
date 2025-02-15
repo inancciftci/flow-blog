@@ -52,15 +52,34 @@ const BlogPostForm = () => {
       coverImage: undefined,
     },
   });
-  const imageHandler = (e) => {
+  const imageHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
     if (file) {
       form.setValue("coverImage", file, { shouldValidate: true });
     }
   };
 
-  const onSubmit = (data: z.infer<typeof CreatePostSchema>) => {
-    console.log("Blog Post Data:", data);
+  const onSubmit = async (data: z.infer<typeof CreatePostSchema>) => {
+    try {
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("content", data.content);
+      formData.append("category", data.category);
+
+      if (data.coverImage) {
+        formData.append("coverImage", data.coverImage);
+      }
+
+      const result = await api.posts.create(formData);
+
+      if (result.error) {
+        throw new Error(result.error || "Failed to create post");
+      }
+
+      form.reset();
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
   };
 
   return (
@@ -101,7 +120,7 @@ const BlogPostForm = () => {
                       <SelectItem
                         className="cursor-pointer hover:bg-gray-100"
                         key={category.id}
-                        value={category.title}
+                        value={String(category.id)}
                       >
                         {category.title}
                       </SelectItem>

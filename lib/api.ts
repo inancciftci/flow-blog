@@ -17,4 +17,24 @@ export const api = {
         headers: { "Content-Type": "application/json" },
       }),
   },
+
+  posts: {
+    getAll: () => fetch(`${API_BASE_URL}/api/post`).then((res) => res.json()),
+
+    getById: (id: string) =>
+      fetch(`${API_BASE_URL}/api/post/${id}`).then((res) => res.json()),
+
+    create: (data: FormData) =>
+      fetch(`${API_BASE_URL}/api/post`, {
+        method: "POST",
+        body: data,
+      }).then((res) => res.json()),
+
+    delete: (id: string) =>
+      fetch(`${API_BASE_URL}/api/post`, {
+        method: "DELETE",
+        body: JSON.stringify({ id }),
+        headers: { "Content-Type": "application/json" },
+      }),
+  },
 };

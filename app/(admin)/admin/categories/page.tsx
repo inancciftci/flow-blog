@@ -71,7 +71,9 @@ export default function CategoryPage() {
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell>Loading categories...</TableCell>
+                <TableCell></TableCell>
+                <TableCell>Loading categories ...</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             ) : (
               categories.map((category) => (
