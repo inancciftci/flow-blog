@@ -3,7 +3,13 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -15,16 +21,44 @@ import TiptapEditor from "@/components/ui/tiptap";
 import { CreatePostSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
 
 const BlogPostForm = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await api.categories.getAll();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const form = useForm<z.infer<typeof CreatePostSchema>>({
     resolver: zodResolver(CreatePostSchema),
     defaultValues: {
       title: "",
       category: "",
       content: "",
+      coverImage: undefined,
     },
   });
+  const imageHandler = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      form.setValue("coverImage", file, { shouldValidate: true });
+    }
+  };
+
   const onSubmit = (data: z.infer<typeof CreatePostSchema>) => {
     console.log("Blog Post Data:", data);
   };
@@ -36,7 +70,6 @@ const BlogPostForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 py-10"
         >
-          {/* Title Field */}
           <FormField
             control={form.control}
             name="title"
@@ -44,32 +77,63 @@ const BlogPostForm = () => {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <Input {...field} placeholder="Enter post title..." />
+                <FormMessage className="text-red-400 font-bold">
+                  {form.formState.errors.title?.message}
+                </FormMessage>
               </FormItem>
             )}
           />
 
-          {/* Category Dropdown */}
           <FormField
             control={form.control}
             name="category"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Category</FormLabel>
-                <Select onValueChange={field.onChange}>
+                <Select onValueChange={field.onChange} disabled={loading}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
+                    <SelectValue
+                      placeholder={loading ? "Loading..." : "Select category"}
+                    />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="technology">Technology</SelectItem>
-                    <SelectItem value="business">Business</SelectItem>
-                    <SelectItem value="lifestyle">Lifestyle</SelectItem>
+                  <SelectContent className="bg-white">
+                    {categories.map((category) => (
+                      <SelectItem
+                        className="cursor-pointer hover:bg-gray-100"
+                        key={category.id}
+                        value={category.title}
+                      >
+                        {category.title}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
+                <FormMessage className="text-red-400 font-bold">
+                  {form.formState.errors.category?.message}
+                </FormMessage>
               </FormItem>
             )}
           />
 
-          {/* Tiptap Editor */}
+          <FormField
+            control={form.control}
+            name="coverImage"
+            render={() => (
+              <FormItem>
+                <FormLabel>Cover Image</FormLabel>
+                <Input
+                  type="file"
+                  className="cursor-pointer"
+                  accept="image/*"
+                  onChange={imageHandler}
+                />
+                <FormMessage className="text-red-400 font-bold">
+                  {form.formState.errors.coverImage?.message}
+                </FormMessage>
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="content"
@@ -81,7 +145,6 @@ const BlogPostForm = () => {
             )}
           />
 
-          {/* Submit Button */}
           <Button type="submit" className="w-full">
             Publish Post
           </Button>

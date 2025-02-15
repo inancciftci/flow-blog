@@ -1,9 +1,7 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Heading from "@tiptap/extension-heading";
 import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
-import Blockquote from "@tiptap/extension-blockquote";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import { useEffect, useState } from "react";
@@ -12,6 +10,7 @@ import { FormControl } from "@/components/ui/form";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import CustomHeading from "../customTiptapExtensions/customHeading";
 
 interface TiptapProps {
   name: string;
@@ -24,10 +23,9 @@ const TiptapEditor = ({ name }: TiptapProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Heading.configure({ levels: [2, 3] }),
+      CustomHeading.configure({ levels: [1, 2] }),
       Bold,
       Italic,
-      Blockquote,
       Link,
       Image,
     ],
@@ -97,7 +95,22 @@ const TiptapEditor = ({ name }: TiptapProps) => {
                 size="sm"
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  editor?.isActive("heading", { level: 2 })
+                  editor?.getAttributes("heading").level === 1
+                    ? "bg-slate-800 text-white"
+                    : "text-slate-800"
+                )}
+                onClick={() =>
+                  editor?.chain().focus().toggleHeading({ level: 1 }).run()
+                }
+              >
+                H1
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                className={cn(
+                  buttonVariants({ variant: "outline" }),
+                  editor?.getAttributes("heading").level === 2
                     ? "bg-slate-800 text-white"
                     : "text-slate-800"
                 )}
@@ -106,19 +119,6 @@ const TiptapEditor = ({ name }: TiptapProps) => {
                 }
               >
                 H2
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                className={cn(
-                  buttonVariants({ variant: "outline" }),
-                  editor?.isActive("quote", { level: 3 })
-                    ? "bg-slate-800 text-white"
-                    : "text-slate-800"
-                )}
-                onClick={() => editor?.chain().focus().toggleBlockquote().run()}
-              >
-                Quote
               </Button>
             </div>
 
