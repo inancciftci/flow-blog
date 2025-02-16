@@ -1,4 +1,5 @@
 import TagCard from "@/components/ui/tagcard";
+import { api } from "@/lib/api";
 import {
   ChatBubbleBottomCenterIcon,
   HandThumbUpIcon,
@@ -8,16 +9,16 @@ import Image from "next/image";
 import React from "react";
 
 const page = async ({ params }: { params: { slug: string } }) => {
-  const { slug } = await params;
+  const slug = await params.slug;
+  const post = await api.posts.getByTitle(slug);
   return (
     <section className="container flex flex-col gap-10">
-      {/* POST TOP CONTENT */}
       <div className="flex flex-col gap-10">
         <div className="flex gap-4 items-center">
           <TagCard tag="Lifestyle" />
           <p className="text-slate-600">September 15, 2021</p>
         </div>
-        <h1 className="text-6xl font-bold">{slug.split("%20").join(" ")}</h1>
+        <h1 className="text-6xl font-bold">{post.title}</h1>
         <div className="flex justify-between items-center">
           <div className="flex gap-6 items-center">
             <Image
@@ -57,11 +58,13 @@ const page = async ({ params }: { params: { slug: string } }) => {
           fill
           alt="Cover Image"
           className="object-cover"
-          src={
-            "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/news-16.jpg"
-          }
+          src={post.cover_image}
         />
       </div>
+      <div
+        className="flex flex-col gap-4"
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
     </section>
   );
 };

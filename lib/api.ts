@@ -24,6 +24,9 @@ export const api = {
     getById: (id: string) =>
       fetch(`${API_BASE_URL}/api/post/${id}`).then((res) => res.json()),
 
+    getByTitle: (title: string) =>
+      fetch(`${API_BASE_URL}/api/post/${title}`).then((res) => res.json()),
+
     create: (data: FormData) =>
       fetch(`${API_BASE_URL}/api/post`, {
         method: "POST",

@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["wp.alithemes.com"],
+    domains: ["wp.alithemes.com", "zmktljhsixtnepoianod.supabase.co"],
   },
 };
 
