@@ -1,64 +1,54 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeroCard from "./HeroCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { motion, AnimatePresence } from "framer-motion";
-
-const posts = [
-  {
-    id: 1,
-    title: "30 Best Lifestyle Blogs to Follow in 2021",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
-    image:
-      "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-10.jpg",
-    date: "2021-09-01",
-    tag: "Lifestyle",
-  },
-  {
-    id: 2,
-    title: "9 Things I Love About Shaving My Head During Quarantine",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
-    image:
-      "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-11.jpg",
-    date: "2021-02-01",
-    tag: "Design",
-  },
-  {
-    id: 3,
-    title: "Essential Quallities of Highly Successful Music in this year",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
-    image:
-      "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-12.jpg",
-    date: "2021-05-01",
-    tag: "Audition",
-  },
-  {
-    id: 4,
-    title: "Why We Need to Stop Talking About Food and Guilt",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Odio suspendisse leo neque iaculis molestie sagittis maecenas aenean eget molestie sagittis.",
-    image:
-      "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/thumb-13.jpg",
-    date: "2021-07-01",
-    tag: "Healthy",
-  },
-];
+import { api } from "@/lib/api";
 
 const Hero = () => {
+  const [featuredPosts, setFeaturedPosts] = useState<Post[]>([]);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const posts = await api.posts.getAll();
+
+        const categories = await api.categories.getAll();
+
+        const categoryMap = categories.reduce((acc, cat) => {
+          acc[cat.id] = cat.title;
+          return acc;
+        }, {} as Record<number, string>);
+
+        const enrichedPosts = posts.map((post: Post) => ({
+          ...post,
+          categoryTitle: categoryMap[post.category],
+        }));
+
+        setFeaturedPosts(
+          enrichedPosts
+            .sort((a: Post, b: Post) => b.views - a.views)
+            .slice(0, 3)
+        );
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+    fetchPosts();
+  }, []);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right">("right");
 
   const handleNext = () => {
     setDirection("right");
-    setCurrentIndex((prev) => (prev + 1) % posts.length);
+    setCurrentIndex((prev) => (prev + 1) % featuredPosts.length);
   };
 
   const handlePrev = () => {
     setDirection("left");
-    setCurrentIndex((prev) => (prev - 1 + posts.length) % posts.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + featuredPosts.length) % featuredPosts.length
+    );
   };
 
   const variants = {
@@ -92,18 +82,20 @@ const Hero = () => {
         />
 
         <div className="container relative ">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-            >
-              <HeroCard post={posts[currentIndex]} />
-            </motion.div>
-          </AnimatePresence>
+          {featuredPosts.length > 0 && (
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={currentIndex}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+              >
+                <HeroCard post={featuredPosts[currentIndex]} />
+              </motion.div>
+            </AnimatePresence>
+          )}
         </div>
 
         <ChevronRightIcon

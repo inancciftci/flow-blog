@@ -3,39 +3,44 @@ import React from "react";
 import TagCard from "./ui/tagcard";
 import { dateToString } from "@/lib/helper";
 import { motion } from "framer-motion";
-
-export interface Post {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  date: string;
-  tag: string;
-}
+import Link from "next/link";
 
 interface HeroCardProps {
   post: Post;
 }
 
 const HeroCard = ({ post }: HeroCardProps) => {
+  const getShortDescription = (html: string, maxLength: number = 200) => {
+    const textContent = html.replace(/<\/?[^>]+(>|$)/g, " ");
+
+    return textContent.length > maxLength
+      ? textContent.substring(0, maxLength).trim() + "..."
+      : textContent.trim();
+  };
+
+  const shortDescription = getShortDescription(post.content);
+
   return (
     <motion.div
-      className="grid grid-cols-2 gap-10 max-md:grid-cols-1 max-md:"
+      className="grid grid-cols-2 gap-10 max-md:grid-cols-1"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
       <div className="flex flex-col justify-center max-md:items-center max-md:text-center max-md:py-0 gap-8 py-4">
         <div className="flex gap-4 items-center">
-          <TagCard tag={post.tag} />
-          <p className="text-slate-600">{dateToString(post.date)}</p>
+          <TagCard tag={post.categoryTitle || "Unknown"} />
+          <p className="text-slate-600">{dateToString(post?.created_at)}</p>
         </div>
-        <h1 className="text-5xl max-md:text-4xl font-bold">{post.title}</h1>
-        <p className="text-slate-600">{post.description}</p>
+        <Link href={`/blog/post/${post.title}`}>
+          <h1 className="text-5xl max-md:text-4xl font-bold">{post.title}</h1>
+        </Link>
+
+        <p className="text-slate-600">{shortDescription}</p>
       </div>
-      <div className="relative h-[100%] aspect-square rounded-lg overflow-hidden">
+      <div className="relative h-[100%] max-w-[100%] aspect-square rounded-lg overflow-hidden">
         <Image
           className="object-cover aspect-square"
-          src={post.image}
+          src={post.cover_image}
           alt="post image"
           fill
         />

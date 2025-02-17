@@ -4,6 +4,8 @@ export const api = {
   categories: {
     getAll: () =>
       fetch(`${API_BASE_URL}/api/category`).then((res) => res.json()),
+    getById: (id: number) =>
+      fetch(`${API_BASE_URL}/api/category/${id}`).then((res) => res.json()),
     create: (data: Category) =>
       fetch(`${API_BASE_URL}/api/category`, {
         method: "POST",
@@ -31,6 +33,13 @@ export const api = {
       fetch(`${API_BASE_URL}/api/post`, {
         method: "POST",
         body: data,
+      }).then((res) => res.json()),
+
+    incrementView: (id: number) =>
+      fetch(`${API_BASE_URL}/api/views`, {
+        method: "POST",
+        body: JSON.stringify({ postId: id }),
+        headers: { "Content-Type": "application/json" },
       }).then((res) => res.json()),
 
     delete: (id: string) =>

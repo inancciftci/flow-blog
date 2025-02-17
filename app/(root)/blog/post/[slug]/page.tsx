@@ -1,22 +1,55 @@
+"use client";
+
 import TagCard from "@/components/ui/tagcard";
 import { api } from "@/lib/api";
+import { dateToString } from "@/lib/helper";
 import {
   ChatBubbleBottomCenterIcon,
   HandThumbUpIcon,
   StarIcon,
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const page = async ({ params }: { params: { slug: string } }) => {
-  const slug = await params.slug;
-  const post = await api.posts.getByTitle(slug);
+const Page = ({ params }: { params: { slug: string } }) => {
+  const [post, setPost] = useState<Post>();
+  const [category, setCategory] = useState<Category>();
+  const [slug, setSlug] = useState<string>("");
+
+  useEffect(() => {
+    const unwrapParams = async () => {
+      const resolvedParams = await params;
+      setSlug(resolvedParams.slug);
+    };
+
+    unwrapParams();
+  }, [params]);
+
+  useEffect(() => {
+    const fetchPostAndCategory = async () => {
+      try {
+        const postData = await api.posts.getByTitle(slug);
+        const categoryData = await api.categories.getById(postData.category);
+        setPost(postData);
+        setCategory(categoryData);
+
+        await api.posts.incrementView(postData.id);
+      } catch (err) {
+        console.error("Error fetching post:", err);
+      }
+    };
+    if (slug) fetchPostAndCategory();
+  }, [slug]);
+
+  if (!post || !category) {
+    return <p>Loading...</p>;
+  }
   return (
     <section className="container flex flex-col gap-10">
       <div className="flex flex-col gap-10">
         <div className="flex gap-4 items-center">
-          <TagCard tag="Lifestyle" />
-          <p className="text-slate-600">September 15, 2021</p>
+          <TagCard tag={category.title} />
+          <p className="text-slate-600">{dateToString(post.created_at)}</p>
         </div>
         <h1 className="text-6xl font-bold">{post.title}</h1>
         <div className="flex justify-between items-center">
@@ -69,4 +102,4 @@ const page = async ({ params }: { params: { slug: string } }) => {
   );
 };
 
-export default page;
+export default Page;
