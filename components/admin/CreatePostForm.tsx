@@ -23,10 +23,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const BlogPostForm = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -75,8 +78,8 @@ const BlogPostForm = () => {
       if (result.error) {
         throw new Error(result.error || "Failed to create post");
       }
-
-      form.reset();
+      toast.success("Post created successfully!");
+      router.push("/admin/posts");
     } catch (error) {
       console.error("Error creating post:", error);
     }

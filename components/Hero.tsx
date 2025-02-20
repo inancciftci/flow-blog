@@ -73,7 +73,7 @@ const Hero = () => {
   };
 
   return (
-    <div className=" relative">
+    <div className="relative">
       <div className="w-[40%] h-[55vh] bg-[#fff4ec] absolute right-0 top-[-15rem] -z-20"></div>
       <div className="flex items-center my-[2.5rem]">
         <ChevronLeftIcon

@@ -44,10 +44,37 @@ export async function POST(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const { id } = await req.json();
+
     if (!id) {
       return new NextResponse(JSON.stringify({ error: "Missing ID" }), {
         status: 400,
       });
+    }
+
+    const { data: relatedPosts, error: checkError } = await supabase
+      .from("posts")
+      .select("id")
+      .eq("category", id)
+      .limit(1);
+
+    if (checkError) {
+      return new NextResponse(JSON.stringify({ error: checkError.message }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    if (relatedPosts && relatedPosts.length > 0) {
+      return new NextResponse(
+        JSON.stringify({
+          error: "Cannot delete category with existing posts",
+          type: "CATEGORY_HAS_POSTS",
+        }),
+        {
+          status: 409,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
 
     const { error } = await supabase.from("category").delete().eq("id", id);

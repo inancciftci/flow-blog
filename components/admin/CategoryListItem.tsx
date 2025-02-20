@@ -3,23 +3,28 @@
 import React from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "../ui/button";
-import { ArrowPathIcon, TrashIcon } from "@heroicons/react/20/solid";
-import { toast } from "sonner";
+import { TrashIcon } from "@heroicons/react/20/solid";
+import { toast } from "react-hot-toast";
 import { api } from "@/lib/api";
 
 const CategoryListItem = ({ category }: { category: Category }) => {
   const handleDelete = async () => {
     try {
-      const response = await api.categories.delete(category?.id);
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to delete category");
+      const res = await api.categories.delete(category?.id);
+      if (res.type === "CATEGORY_HAS_POSTS") {
+        toast.error("Cannot delete the category that has existing posts");
+        return;
       }
-
+      if (res.error) {
+        throw new Error(res.error);
+      }
       toast.success("Category deleted successfully!");
     } catch (error) {
-      toast.error("Error: " + error.message);
+      if (error instanceof Error) {
+        toast.error(`Error: ${error.message}`);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
   };
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import TagCard from "./ui/tagcard";
-import { dateToString } from "@/lib/helper";
+import { dateToString, getShortDescription } from "@/lib/helper";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -10,14 +10,6 @@ interface HeroCardProps {
 }
 
 const HeroCard = ({ post }: HeroCardProps) => {
-  const getShortDescription = (html: string, maxLength: number = 200) => {
-    const textContent = html.replace(/<\/?[^>]+(>|$)/g, " ");
-
-    return textContent.length > maxLength
-      ? textContent.substring(0, maxLength).trim() + "..."
-      : textContent.trim();
-  };
-
   const shortDescription = getShortDescription(post.content);
 
   return (

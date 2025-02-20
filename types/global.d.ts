@@ -1,6 +1,6 @@
 interface Category {
   title: string;
-  id?: string;
+  id: string;
   created_at?: string;
 }
 
@@ -13,4 +13,9 @@ interface Post {
   category: number;
   views: number;
   categoryTitle?: string;
+}
+
+interface DeleteCategoryResponse {
+  error?: string;
+  type?: string;
 }
