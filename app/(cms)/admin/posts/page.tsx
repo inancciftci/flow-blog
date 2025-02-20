@@ -45,7 +45,7 @@ const Page = () => {
   }, []);
   return (
     <div className="flex flex-col gap-2 w-full">
-      <h1 className="text-5xl font-bold mb-6">Posts</h1>
+      <h1 className="text-4xl text-slate-700 font-bold mb-6">{`Posts (${sortedPosts?.length})`}</h1>
       {loading ? (
         <span>Loading</span>
       ) : (

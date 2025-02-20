@@ -118,10 +118,10 @@ const BlogPostForm = () => {
                       placeholder={loading ? "Loading..." : "Select category"}
                     />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className="bg-primary-100">
                     {categories.map((category) => (
                       <SelectItem
-                        className="cursor-pointer hover:bg-gray-100"
+                        className="cursor-pointer hover:bg-primary-500"
                         key={category.id}
                         value={String(category.id)}
                       >
@@ -167,7 +167,7 @@ const BlogPostForm = () => {
             )}
           />
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full bg-primary-500">
             Publish Post
           </Button>
         </form>

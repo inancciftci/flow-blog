@@ -61,15 +61,16 @@ export default function CategoryPage() {
 
   return (
     <div>
-      <h1 className="text-5xl font-bold mb-10">Category List</h1>
-      <div className="bg-slate-100 px-4 py-2 rounded-lg">
+      <h1 className="text-4xl font-bold mb-10">Category List</h1>
+      <CreateCategory />
+      <div className="bg-primary-100 px-4 py-2 rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">ID</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead className="text-right">Post Count</TableHead>
-              <TableHead className="text-right">Delete</TableHead>
+              <TableHead className="w-[100px] font-bold">ID</TableHead>
+              <TableHead className="font-bold">Title</TableHead>
+              <TableHead className="text-right font-bold">Post Count</TableHead>
+              <TableHead className="text-right font-bold">Delete</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -90,9 +91,6 @@ export default function CategoryPage() {
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="my-10">
-        <CreateCategory />
       </div>
     </div>
   );

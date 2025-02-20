@@ -45,7 +45,7 @@ export default function CreateCategory() {
   };
 
   return (
-    <Card className="max-w-md mx-auto bg-black text-white">
+    <Card className="max-w-[60%] max-md:max-w-[100%] mb-10 shadow-sm ">
       <CardHeader>
         <CardTitle className="text-center font-bold text-xl">
           Create Category

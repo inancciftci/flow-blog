@@ -54,7 +54,7 @@ const CategoryListItem = ({
       </TableCell>
 
       <TableCell className="text-right">
-        <Button onClick={handleDelete} className="bg-black text-white">
+        <Button onClick={handleDelete} className="bg-primary-500 shadow-sm ">
           <TrashIcon className="w-5 h-5" />
         </Button>
       </TableCell>
