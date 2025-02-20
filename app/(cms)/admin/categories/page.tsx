@@ -17,17 +17,20 @@ import { toast } from "sonner";
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchCategoriesandPosts = async () => {
       setLoading(true);
-      const data = await api.categories.getAll();
-      setCategories(data);
+      const categoryData = await api.categories.getAll();
+      setCategories(categoryData);
+      const postData = await api.posts.getAll();
+      setPosts(postData);
       setLoading(false);
     };
 
-    fetchCategories();
+    fetchCategoriesandPosts();
 
     const channel = supabase
       .channel("category")
@@ -65,6 +68,7 @@ export default function CategoryPage() {
             <TableRow>
               <TableHead className="w-[100px]">ID</TableHead>
               <TableHead>Title</TableHead>
+              <TableHead className="text-right">Post Count</TableHead>
               <TableHead className="text-right">Delete</TableHead>
             </TableRow>
           </TableHeader>
@@ -77,7 +81,11 @@ export default function CategoryPage() {
               </TableRow>
             ) : (
               categories.map((category) => (
-                <CategoryListItem category={category} key={category.id} />
+                <CategoryListItem
+                  posts={posts}
+                  category={category}
+                  key={category.id}
+                />
               ))
             )}
           </TableBody>

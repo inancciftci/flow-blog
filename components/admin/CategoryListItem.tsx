@@ -1,13 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "../ui/button";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-hot-toast";
 import { api } from "@/lib/api";
 
-const CategoryListItem = ({ category }: { category: Category }) => {
+const CategoryListItem = ({
+  category,
+  posts,
+}: {
+  category: Category;
+  posts: Post[];
+}) => {
+  const [categoryPosts, setCategoryPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (posts) {
+      const filteredPosts = posts.filter(
+        (post) => Number(post.category) === Number(category?.id)
+      );
+      setCategoryPosts(filteredPosts);
+      setLoading(false);
+    }
+  }, [category?.id, posts]);
   const handleDelete = async () => {
     try {
       const res = await api.categories.delete(category?.id);
@@ -32,6 +49,9 @@ const CategoryListItem = ({ category }: { category: Category }) => {
     <TableRow>
       <TableCell className="font-medium">{category.id}</TableCell>
       <TableCell>{category.title}</TableCell>
+      <TableCell className="text-right">
+        {loading ? `Loading Posts` : `${categoryPosts.length}`}
+      </TableCell>
 
       <TableCell className="text-right">
         <Button onClick={handleDelete} className="bg-black text-white">
