@@ -6,8 +6,8 @@ import { api } from "@/lib/api";
 import { dateToString } from "@/lib/helper";
 import {
   ChatBubbleBottomCenterIcon,
+  EyeIcon,
   HandThumbUpIcon,
-  StarIcon,
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -50,7 +50,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
     );
   }
   return (
-    <section className="container flex flex-col gap-10">
+    <section className="flex flex-col gap-10">
       <div className="flex flex-col gap-10">
         <div className="flex gap-4 items-center">
           <TagCard tag={category.title} />
@@ -84,8 +84,10 @@ const Page = ({ params }: { params: { slug: string } }) => {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <StarIcon className="h-5 w-5 text-slate-400" />
-              <span className="text-slate-400 font-bold text-sm">9/10</span>
+              <EyeIcon className="h-5 w-5 text-slate-400" />
+              <span className="text-slate-400 font-bold text-sm">
+                {post.views} Views
+              </span>
             </div>
           </div>
         </div>
