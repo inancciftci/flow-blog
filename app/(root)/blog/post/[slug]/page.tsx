@@ -51,12 +51,14 @@ const Page = ({ params }: { params: { slug: string } }) => {
   }
   return (
     <section className="flex flex-col gap-10">
-      <div className="flex flex-col gap-10">
-        <div className="flex gap-4 items-center">
+      <div className="flex flex-col gap-10 max-md:gap-4">
+        <div className="flex gap-4 items-center max-md:justify-center">
           <TagCard tag={category.title} />
           <p className="text-slate-600">{dateToString(post.created_at)}</p>
         </div>
-        <h1 className="text-6xl font-bold">{post.title}</h1>
+        <h1 className="text-6xl font-bold max-md:text-center max-md:text-4xl">
+          {post.title}
+        </h1>
         <div className="flex justify-between items-center">
           <div className="flex gap-6 items-center">
             <Image

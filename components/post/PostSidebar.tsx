@@ -32,8 +32,8 @@ const PostSidebar = ({
       <div className="flex flex-col gap-4">
         <h3 className="text-2xl font-bold text-slate-700">Most popular</h3>
         <div className="flex h-[2px] w-full">
-          <div className="h-full bg-black w-[30%]"></div>
-          <div className="h-full bg-slate-300 w-[70%]"></div>
+          <div className="h-full bg-primary-500 w-[30%]"></div>
+          <div className="h-full bg-primary-100 w-[70%]"></div>
         </div>
 
         {mostViewedPosts.map((post) => (
@@ -45,8 +45,8 @@ const PostSidebar = ({
         <div className="flex flex-col gap-4">
           <h3 className="text-2xl font-bold text-slate-700">Related posts</h3>
           <div className="flex h-[2px] w-full">
-            <div className="h-full bg-black w-[30%]"></div>
-            <div className="h-full bg-slate-300 w-[70%]"></div>
+            <div className="h-full bg-primary-500 w-[30%]"></div>
+            <div className="h-full bg-primary-100 w-[70%]"></div>
           </div>
           {categoryPosts.length > 0 ? (
             categoryPosts.map((post) => (

@@ -65,16 +65,16 @@ const Hero = ({
   };
 
   return (
-    <div className="relative h-[70vh] flex items-center justify-center max-md:h-[100vh]">
+    <div className="relative flex items-center justify-center">
       <div className="w-[40%]  bg-[#fff4ec] absolute right-0 top-[-15rem] -z-20"></div>
-      <div className="flex items-center my-[2.5rem]">
+      <div className="flex items-center max-md:my-[1rem] my-[2.5rem]">
         <ChevronLeftIcon
           className="w-[50px] text-primary-500 cursor-pointer absolute left-0 z-[100] max-md:hidden"
           onClick={handlePrev}
         />
 
         <div className="container relative ">
-          <div className="hidden max-md:flex gap-10">
+          <div className="hidden max-md:flex w-full justify-center items-center">
             <ChevronLeftIcon
               className="w-[50px] text-primary-500 cursor-pointer "
               onClick={handlePrev}
