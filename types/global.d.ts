@@ -13,6 +13,7 @@ interface Post {
   category: number;
   views: number;
   categoryTitle?: string;
+  slug?: string;
 }
 
 interface DeleteCategoryResponse {

@@ -1,49 +1,35 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import TrendingTopicsCard from "./TrendingTopicsCard";
 
-const posts = [
-  {
-    id: 1,
-    title: "After a Few Dates, They Traveled to the Other Side of the World",
-    tag: "Travel",
-    date: "2021.09.15",
-    author: "John Doe",
-    image:
-      "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/news-8.jpg",
-  },
-  {
-    id: 2,
-    title: "The 28 Best Skincare Products of 2021",
-    tag: "LifeStyle",
-    date: "2021.09.15",
+const RecentArticles = ({
+  posts,
+  categories,
+}: {
+  posts: Post[];
+  categories: Category[];
+}) => {
+  const [recentArticles, setRecentArticles] = useState<Post[]>([]);
+  useEffect(() => {
+    const categoryMap = categories.reduce((acc, cat) => {
+      acc[cat.id] = cat.title;
+      return acc;
+    }, {} as Record<number, string>);
 
-    author: "John Doe",
-    image:
-      "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/news-5.jpg",
-  },
-  {
-    id: 3,
-    title: "5 Science-Backed Reasons Why Music is Good for You",
-    tag: "Music",
-    date: "2021.09.15",
+    const enrichedPosts = posts.map((post: Post) => ({
+      ...post,
+      categoryTitle: categoryMap[post.category],
+    }));
 
-    author: "John Doe",
-    image:
-      "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/news-6.jpg",
-  },
-  {
-    id: 4,
-    title: "Rice Water for Hair Growth: Does It Actually Work?",
-    tag: "Beauty",
-    date: "2021.09.15",
+    const sortedByDate = enrichedPosts.sort((a: Post, b: Post) => {
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+      return dateB.getTime() - dateA.getTime();
+    });
 
-    author: "John Doe",
-    image:
-      "https://wp.alithemes.com/html/flow/html-demo/assets/imgs/news/news-7.jpg",
-  },
-];
-
-const RecentArticles = () => {
+    setRecentArticles(sortedByDate.slice(0, 4));
+  }, [categories, posts]);
   return (
     <section className="container my-10 flex flex-col gap-10 max-md:mt-4">
       <div className="flex flex-col mb-10 max-md:text-center max-md:mb-0">
@@ -55,7 +41,7 @@ const RecentArticles = () => {
         </h3>
       </div>
       <div className="grid grid-cols-2 gap-10 max-md:grid-cols-1">
-        {posts.map((post) => (
+        {recentArticles.map((post) => (
           <TrendingTopicsCard key={post.id} post={post} />
         ))}
       </div>

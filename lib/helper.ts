@@ -25,3 +25,9 @@ export const dateToStringDetail = (date: string) => {
     minute: "2-digit",
   });
 };
+
+export const createSlug = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, "")
+    .replace(/\s+/g, "-");

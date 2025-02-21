@@ -10,6 +10,7 @@ const routes = [
   { id: 2, name: "About", path: ROUTES.ABOUT },
   { id: 3, name: "Contact", path: ROUTES.CONTACT },
   { id: 4, name: "Blog", path: ROUTES.BLOG },
+  { id: 5, name: "CMS", path: "/admin" },
 ];
 
 const Header = () => {

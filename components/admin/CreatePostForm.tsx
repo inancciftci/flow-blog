@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { createSlug } from "@/lib/helper";
 
 const BlogPostForm = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -65,9 +66,11 @@ const BlogPostForm = () => {
   const onSubmit = async (data: z.infer<typeof CreatePostSchema>) => {
     try {
       const formData = new FormData();
+      const slug = createSlug(data.title);
       formData.append("title", data.title);
       formData.append("content", data.content);
       formData.append("category", data.category);
+      formData.append("slug", slug);
 
       if (data.coverImage) {
         formData.append("coverImage", data.coverImage);

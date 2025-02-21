@@ -10,7 +10,7 @@ export async function GET(
     const { data, error } = await supabase
       .from("posts")
       .select("*")
-      .ilike("title", slug.replace(/-/g, " "));
+      .ilike("slug", slug);
 
     if (error || !data.length) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });

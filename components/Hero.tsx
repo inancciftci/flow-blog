@@ -3,38 +3,30 @@ import { useEffect, useState } from "react";
 import HeroCard from "./HeroCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { motion, AnimatePresence } from "framer-motion";
-import { api } from "@/lib/api";
 
-const Hero = () => {
+const Hero = ({
+  posts,
+  categories,
+}: {
+  posts: Post[];
+  categories: Category[];
+}) => {
   const [featuredPosts, setFeaturedPosts] = useState<Post[]>([]);
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const posts = await api.posts.getAll();
+    const categoryMap = categories.reduce((acc, cat) => {
+      acc[cat.id] = cat.title;
+      return acc;
+    }, {} as Record<number, string>);
 
-        const categories = await api.categories.getAll();
+    const enrichedPosts = posts.map((post: Post) => ({
+      ...post,
+      categoryTitle: categoryMap[post.category],
+    }));
 
-        const categoryMap = categories.reduce((acc, cat) => {
-          acc[cat.id] = cat.title;
-          return acc;
-        }, {} as Record<number, string>);
-
-        const enrichedPosts = posts.map((post: Post) => ({
-          ...post,
-          categoryTitle: categoryMap[post.category],
-        }));
-
-        setFeaturedPosts(
-          enrichedPosts
-            .sort((a: Post, b: Post) => b.views - a.views)
-            .slice(0, 3)
-        );
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    };
-    fetchPosts();
-  }, []);
+    setFeaturedPosts(
+      enrichedPosts.sort((a: Post, b: Post) => b.views - a.views).slice(0, 3)
+    );
+  }, [categories, posts]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right">("right");
@@ -73,15 +65,25 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="w-[40%] h-[55vh] bg-[#fff4ec] absolute right-0 top-[-15rem] -z-20"></div>
+    <div className="relative h-[70vh] flex items-center justify-center max-md:h-[100vh]">
+      <div className="w-[40%]  bg-[#fff4ec] absolute right-0 top-[-15rem] -z-20"></div>
       <div className="flex items-center my-[2.5rem]">
         <ChevronLeftIcon
-          className="w-[50px] text-primary-500 cursor-pointer absolute left-0 z-[100]"
+          className="w-[50px] text-primary-500 cursor-pointer absolute left-0 z-[100] max-md:hidden"
           onClick={handlePrev}
         />
 
         <div className="container relative ">
+          <div className="hidden max-md:flex gap-10">
+            <ChevronLeftIcon
+              className="w-[50px] text-primary-500 cursor-pointer "
+              onClick={handlePrev}
+            />
+            <ChevronRightIcon
+              className="w-[50px] text-primary-500 cursor-pointer "
+              onClick={handleNext}
+            />
+          </div>
           {featuredPosts.length > 0 && (
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
@@ -99,7 +101,7 @@ const Hero = () => {
         </div>
 
         <ChevronRightIcon
-          className="w-[50px] text-primary-500 cursor-pointer absolute right-0"
+          className="w-[50px] text-primary-500 cursor-pointer absolute right-0 max-md:hidden"
           onClick={handleNext}
         />
       </div>

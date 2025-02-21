@@ -6,17 +6,7 @@ import ROUTES from "@/constants/routes";
 import Link from "next/link";
 import { NewspaperIcon } from "@heroicons/react/20/solid";
 import { Input } from "./ui/input";
-
-const tags = [
-  "Design",
-  "Development",
-  "SEO",
-  "Marketing",
-  "Creative",
-  "Web",
-  "Branding",
-  "Agency",
-];
+import { api } from "@/lib/api";
 
 const quickLinks = [
   { id: 1, name: "Home", path: ROUTES.HOME },
@@ -26,7 +16,8 @@ const quickLinks = [
   { id: 5, name: "Help & Support", path: "/" },
 ];
 
-const Footer = () => {
+const Footer = async () => {
+  const categories = await api.categories.getAll();
   return (
     <footer>
       <div className="bg-primary-100">
@@ -114,8 +105,8 @@ const Footer = () => {
             <div className="w-[25%] max-md:w-full">
               <h3 className="text-2xl font-bold mb-3">Tagcloud</h3>
               <div className="flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <TagCard key={tag} tag={tag} />
+                {categories.map((cat: Category) => (
+                  <TagCard key={cat.id} tag={cat.title} />
                 ))}
               </div>
             </div>
@@ -124,6 +115,7 @@ const Footer = () => {
             <p className="font-bold">
               © 2021, Flow - Design by{" "}
               <span className="text-[#ffcca4]">AliThemes</span>
+              <span> - coded by Inanc Ciftci</span>
             </p>
           </div>
         </div>

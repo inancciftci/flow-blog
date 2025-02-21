@@ -1,5 +1,6 @@
 "use client";
 
+import PostLoading from "@/components/ui/postloading";
 import TagCard from "@/components/ui/tagcard";
 import { api } from "@/lib/api";
 import { dateToString } from "@/lib/helper";
@@ -28,7 +29,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   useEffect(() => {
     const fetchPostAndCategory = async () => {
       try {
-        const postData = await api.posts.getByTitle(slug);
+        const postData = await api.posts.getBySlug(slug);
         const categoryData = await api.categories.getById(postData.category);
         setPost(postData);
         setCategory(categoryData);
@@ -42,7 +43,11 @@ const Page = ({ params }: { params: { slug: string } }) => {
   }, [slug]);
 
   if (!post || !category) {
-    return <p>Loading...</p>;
+    return (
+      <div className="h-[100vh]">
+        <PostLoading />
+      </div>
+    );
   }
   return (
     <section className="container flex flex-col gap-10">

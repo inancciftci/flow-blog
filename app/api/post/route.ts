@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const title = formData.get("title") as string;
+    const slug = formData.get("slug") as string;
     const content = formData.get("content") as string;
     const categoryId = formData.get("category") as string; // Category ID from frontend
     const file = formData.get("coverImage") as File | null;
@@ -76,6 +77,7 @@ export async function POST(req: NextRequest) {
         {
           title,
           content,
+          slug,
           cover_image: imageUrl,
           category: categoryId,
           views: 0,

@@ -23,7 +23,7 @@ const HeroCard = ({ post }: HeroCardProps) => {
           <TagCard tag={post.categoryTitle || "Unknown"} />
           <p className="text-slate-600">{dateToString(post?.created_at)}</p>
         </div>
-        <Link href={`/blog/post/${post.title}`}>
+        <Link href={`/blog/post/${post.slug}`}>
           <h1 className="text-5xl max-md:text-4xl font-bold">{post.title}</h1>
         </Link>
 
