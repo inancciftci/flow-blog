@@ -8,18 +8,19 @@ export async function GET(
   try {
     const { slug } = await params;
     const { data, error } = await supabase
-      .from("posts")
+      .from("category")
       .select("*")
       .ilike("slug", slug);
-
     if (error || !data.length) {
-      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Category not found." },
+        { status: 404 }
+      );
     }
-
     return NextResponse.json(data[0], { status: 200 });
   } catch (err) {
     return NextResponse.json(
-      { error: "Internal Server Error", err },
+      { error: (err as Error).message },
       { status: 500 }
     );
   }

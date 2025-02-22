@@ -3,15 +3,7 @@ import React, { useEffect, useState } from "react";
 import SidebarPost from "./SidebarPost";
 import { api } from "@/lib/api";
 
-const PostSidebar = ({
-  posts,
-  categories,
-  slug,
-}: {
-  posts: Post[];
-  categories: Category[];
-  slug: string;
-}) => {
+const PostSidebar = ({ posts, slug }: { posts: Post[]; slug: string }) => {
   const [categoryPosts, setCategoryPosts] = useState<Post[]>([]);
   const mostViewedPosts = posts
     .sort((a: Post, b: Post) => b.views - a.views)
@@ -19,14 +11,11 @@ const PostSidebar = ({
   useEffect(() => {
     const fetchCategoryPosts = async () => {
       const postData = await api.posts.getBySlug(slug);
-      const category = categories.filter((cat) => cat.id === postData.category);
-      const filteredPosts = posts.filter(
-        (post) => Number(post.category) === Number(category[0].id)
-      );
-      setCategoryPosts(filteredPosts.slice(0, 4));
+      const posts = await api.posts.getByCategory(postData?.category);
+      setCategoryPosts(posts.slice(0, 4));
     };
     fetchCategoryPosts();
-  }, [slug, posts, categories]);
+  }, [slug]);
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-4">

@@ -6,6 +6,10 @@ export const api = {
       fetch(`${API_BASE_URL}/api/category`).then((res) => res.json()),
     getById: (id: number) =>
       fetch(`${API_BASE_URL}/api/category/${id}`).then((res) => res.json()),
+    getBySlug: (slug: string) =>
+      fetch(`${API_BASE_URL}/api/category/slug/${slug}`).then((res) =>
+        res.json()
+      ),
     create: (data: Category) =>
       fetch(`${API_BASE_URL}/api/category`, {
         method: "POST",
@@ -30,6 +34,11 @@ export const api = {
 
     getById: (id: string) =>
       fetch(`${API_BASE_URL}/api/post/${id}`).then((res) => res.json()),
+
+    getByCategory: (id: string) =>
+      fetch(`${API_BASE_URL}/api/post/by-category/${id}`).then((res) =>
+        res.json()
+      ),
 
     getBySlug: (slug: string) =>
       fetch(`${API_BASE_URL}/api/post/slug/${slug}`).then((res) => res.json()),

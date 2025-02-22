@@ -17,7 +17,6 @@ import { toast } from "sonner";
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,8 +24,6 @@ export default function CategoryPage() {
       setLoading(true);
       const categoryData = await api.categories.getAll();
       setCategories(categoryData);
-      const postData = await api.posts.getAll();
-      setPosts(postData);
       setLoading(false);
     };
 
@@ -82,11 +79,7 @@ export default function CategoryPage() {
               </TableRow>
             ) : (
               categories.map((category) => (
-                <CategoryListItem
-                  posts={posts}
-                  category={category}
-                  key={category.id}
-                />
+                <CategoryListItem category={category} key={category.id} />
               ))
             )}
           </TableBody>

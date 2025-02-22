@@ -7,24 +7,17 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-hot-toast";
 import { api } from "@/lib/api";
 
-const CategoryListItem = ({
-  category,
-  posts,
-}: {
-  category: Category;
-  posts: Post[];
-}) => {
+const CategoryListItem = ({ category }: { category: Category }) => {
   const [categoryPosts, setCategoryPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (posts) {
-      const filteredPosts = posts.filter(
-        (post) => Number(post.category) === Number(category?.id)
-      );
-      setCategoryPosts(filteredPosts);
+    const fetchCategoryPosts = async () => {
+      const posts = await api.posts.getByCategory(category?.id);
+      setCategoryPosts(posts);
       setLoading(false);
-    }
-  }, [category?.id, posts]);
+    };
+    fetchCategoryPosts();
+  }, [category]);
   const handleDelete = async () => {
     try {
       const res = await api.categories.delete(category?.id);

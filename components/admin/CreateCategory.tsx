@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { toast } from "sonner";
+import { createSlug } from "@/lib/helper";
 
 // Zod schema for validation
 const categorySchema = z.object({
@@ -26,11 +27,12 @@ export default function CreateCategory() {
 
   const onSubmit = async (data: { title: string }) => {
     setLoading(true);
+    const slug = createSlug(data.title);
 
     const response = await fetch("/api/category", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, slug }),
     });
 
     const result = await response.json();

@@ -30,8 +30,10 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { title } = await req.json();
-  const { data, error } = await supabase.from("category").insert({ title });
+  const { title, slug } = await req.json();
+  const { data, error } = await supabase
+    .from("category")
+    .insert({ title, slug });
   if (error) {
     return new NextResponse(JSON.stringify({ error: error.message }), {
       status: 500,
