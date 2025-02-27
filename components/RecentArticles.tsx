@@ -3,33 +3,17 @@
 import React, { useEffect, useState } from "react";
 import TrendingTopicsCard from "./TrendingTopicsCard";
 
-const RecentArticles = ({
-  posts,
-  categories,
-}: {
-  posts: Post[];
-  categories: Category[];
-}) => {
+const RecentArticles = ({ posts }: { posts: Post[] }) => {
   const [recentArticles, setRecentArticles] = useState<Post[]>([]);
   useEffect(() => {
-    const categoryMap = categories.reduce((acc, cat) => {
-      acc[cat.id] = cat.title;
-      return acc;
-    }, {} as Record<number, string>);
-
-    const enrichedPosts = posts.map((post: Post) => ({
-      ...post,
-      categoryTitle: categoryMap[post.category],
-    }));
-
-    const sortedByDate = enrichedPosts.sort((a: Post, b: Post) => {
+    const sortedByDate = posts.sort((a: Post, b: Post) => {
       const dateA = new Date(a.created_at);
       const dateB = new Date(b.created_at);
       return dateB.getTime() - dateA.getTime();
     });
 
     setRecentArticles(sortedByDate.slice(0, 4));
-  }, [categories, posts]);
+  }, [posts]);
   return (
     <section className="container my-10 flex flex-col gap-10 max-md:mt-4">
       <div className="flex flex-col mb-10 max-md:text-center max-md:mb-0">

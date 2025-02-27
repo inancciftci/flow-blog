@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Button } from "./ui/button";
+import LoginButton from "./auth/LoginButton";
 
 const routes = [
   { id: 1, name: "Home", path: ROUTES.HOME },
@@ -31,9 +32,7 @@ const Header = () => {
           </ul>
           <div className="flex gap-[1rem] items-center">
             <MagnifyingGlassIcon className="size-5" />
-            <Link href={"/"}>
-              <Button className="button-primary">Deneme</Button>
-            </Link>
+            <LoginButton />
           </div>
         </div>
       </div>

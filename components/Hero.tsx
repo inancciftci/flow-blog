@@ -4,29 +4,13 @@ import HeroCard from "./HeroCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Hero = ({
-  posts,
-  categories,
-}: {
-  posts: Post[];
-  categories: Category[];
-}) => {
+const Hero = ({ posts }: { posts: Post[] }) => {
   const [featuredPosts, setFeaturedPosts] = useState<Post[]>([]);
   useEffect(() => {
-    const categoryMap = categories.reduce((acc, cat) => {
-      acc[cat.id] = cat.title;
-      return acc;
-    }, {} as Record<number, string>);
-
-    const enrichedPosts = posts.map((post: Post) => ({
-      ...post,
-      categoryTitle: categoryMap[post.category],
-    }));
-
     setFeaturedPosts(
-      enrichedPosts.sort((a: Post, b: Post) => b.views - a.views).slice(0, 3)
+      posts.sort((a: Post, b: Post) => b.views - a.views).slice(0, 3)
     );
-  }, [categories, posts]);
+  }, [posts]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right">("right");

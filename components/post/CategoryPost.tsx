@@ -5,9 +5,9 @@ import { getShortDescription } from "@/lib/helper";
 import Link from "next/link";
 import { EyeIcon } from "@heroicons/react/20/solid";
 
-const CategoryPost = ({ post, category }: { post: Post; category: string }) => {
+const CategoryPost = ({ post }: { post: Post }) => {
   return (
-    <div className="grid grid-cols-[30%_1fr] max-md:grid-cols-[35%_1fr] gap-4 bg-white rounded-lg overflow-hidden shadow-lg">
+    <div className="border-primary-500 border-[1px] grid grid-cols-[30%_1fr] max-md:grid-cols-[35%_1fr] gap-4 bg-white rounded-lg overflow-hidden shadow-lg">
       <div className="relative flex-shrink-0 overflow-hidden">
         <Image
           className="object-cover"
@@ -18,7 +18,7 @@ const CategoryPost = ({ post, category }: { post: Post; category: string }) => {
       </div>
       <div className="flex flex-col justify-around pr-4 py-4 gap-4">
         <div className="max-md:hidden">
-          <TagCard tag={category} />
+          <TagCard tag={post.categoryTitle} />
         </div>
         <Link
           href={`/blog/post/${post.slug}`}

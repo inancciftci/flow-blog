@@ -1,6 +1,18 @@
 import PostSidebar from "@/components/post/PostSidebar";
 import { api } from "@/lib/api";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = await params;
+  const post = await api.posts.getBySlug(slug);
+  return {
+    title: `${post.title}`,
+  };
+}
+
 export default async function Layout({
   children,
   params,

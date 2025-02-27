@@ -7,12 +7,10 @@ import React, { useEffect, useState } from "react";
 const Page = ({ params }: { params: { slug: string } }) => {
   const [categoryPosts, setCategoryPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState("");
   useEffect(() => {
     const fetchCategoryPosts = async () => {
       const { slug } = await params;
       const category = await api.categories.getBySlug(slug);
-      setCategory(category.title);
       const posts = await api.posts.getByCategory(category.id);
       setCategoryPosts(posts);
       setLoading(false);
@@ -28,7 +26,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   return (
     <div className="flex flex-col gap-10 my-6">
       {categoryPosts.map((post: Post) => (
-        <CategoryPost category={category} key={post.id} post={post} />
+        <CategoryPost key={post.id} post={post} />
       ))}
     </div>
   );

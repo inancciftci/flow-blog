@@ -1,5 +1,10 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/admin/Sidebar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "CMS",
+};
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

@@ -10,11 +10,10 @@ export const api = {
       fetch(`${API_BASE_URL}/api/category/slug/${slug}`).then((res) =>
         res.json()
       ),
-    create: (data: Category) =>
+    create: (data: FormData) =>
       fetch(`${API_BASE_URL}/api/category`, {
         method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
+        body: data,
       }).then((res) => res.json()),
     delete: async (id: string): Promise<DeleteCategoryResponse> => {
       const res = await fetch(`${API_BASE_URL}/api/category`, {
@@ -55,6 +54,13 @@ export const api = {
         body: JSON.stringify({ postId: id }),
         headers: { "Content-Type": "application/json" },
       }).then((res) => res.json()),
+
+    getFiltered: (filters: { category?: string; search?: string }) => {
+      const queryParams = new URLSearchParams(filters).toString();
+      return fetch(`${API_BASE_URL}/api/posts/filter?${queryParams}`).then(
+        (res) => res.json()
+      );
+    },
 
     delete: (id: string) =>
       fetch(`${API_BASE_URL}/api/post/${id}`, {

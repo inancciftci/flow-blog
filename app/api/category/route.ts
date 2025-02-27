@@ -30,17 +30,52 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { title, slug } = await req.json();
-  const { data, error } = await supabase
-    .from("category")
-    .insert({ title, slug });
-  if (error) {
-    return new NextResponse(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+  try {
+    const formData = await req.formData();
+    const title = formData.get("title") as string;
+    const description = formData.get("description") as string;
+    const slug = formData.get("slug") as string;
+    const file = formData.get("coverImage") as File | null;
+
+    if (!title || !description) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    let imageUrl = null;
+
+    if (file) {
+      const filePath = `category/${Date.now()}-${file.name}`;
+      const arrayBuffer = await file.arrayBuffer();
+      const buffer = new Uint8Array(arrayBuffer);
+
+      const { error } = await supabase.storage
+        .from("category-images")
+        .upload(filePath, buffer, { contentType: file.type });
+
+      if (error) throw new Error("Image upload failed: " + error.message);
+
+      const { data: publicURLData } = supabase.storage
+        .from("category-images")
+        .getPublicUrl(filePath);
+      imageUrl = publicURLData.publicUrl;
+    }
+
+    const { data, error } = await supabase
+      .from("category")
+      .insert([{ title, description, slug, cover_image: imageUrl }]);
+
+    if (error) throw new Error(error.message);
+    return NextResponse.json({ success: true, post: data }, { status: 201 });
+  } catch (error) {
+    console.error("Error creating post: ", error);
+    return NextResponse.json(
+      { error: (error as Error).message },
+      { status: 500 }
+    );
   }
-  return NextResponse.json({ data }, { status: 201 });
 }
 
 export async function DELETE(req: Request) {

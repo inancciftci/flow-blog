@@ -17,3 +17,33 @@ export const CreatePostSchema = z.object({
       message: "Image should be less than 5MB",
     }),
 });
+
+export const CreateCategorySchema = z.object({
+  title: z.string().min(3, "Title must be at least 3 characters long"),
+  description: z
+    .string()
+    .min(20, "Description must be at least 10 characters long"),
+  coverImage: z
+    .instanceof(File)
+    .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
+      message: "Image should be less than 5MB",
+    }),
+});
+
+export const SignInSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters long"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
+});
+
+export const SignUpSchema = z
+  .object({
+    username: z.string().min(3, "Username must be at least 3 characters long"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters long"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });

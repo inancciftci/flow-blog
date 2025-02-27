@@ -2,6 +2,18 @@ import { api } from "@/lib/api";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = await params;
+  const category = await api.categories.getBySlug(slug);
+  return {
+    title: `${category.title} Category`,
+  };
+}
+
 export default async function Layout({
   children,
   params,
@@ -25,7 +37,7 @@ export default async function Layout({
             <div className="max-w-[400px]">
               <p className="max-md:text-center">{category.description}</p>
             </div>
-            <div className="justify-end">
+            <div className="flex items-end">
               <div className="flex gap-2 items-center">
                 <Link className="text-slate-500" href={"/"}>
                   Home

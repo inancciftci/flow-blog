@@ -44,8 +44,8 @@ const PostCard = ({ post }: { post: Post }) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-6">
-        <div className="col-span-1 relative w-[100%] aspect-square">
+      <div className="grid grid-cols-4 max-md:grid-cols-6 gap-6">
+        <div className="col-span-1 relative w-[100%] max-md:col-span-2 ">
           <Image
             className="object-cover rounded-sm"
             src={post.cover_image}
@@ -54,7 +54,7 @@ const PostCard = ({ post }: { post: Post }) => {
           />
         </div>
 
-        <div className="col-span-3 flex flex-col gap-4">
+        <div className="col-span-3 max-md:col-span-4 flex flex-col gap-4">
           <h3 className="text-lg font-bold"> {post.title}</h3>
           <p>{getShortDescription(post.content, 75)}</p>
           <div className="flex items-center gap-4">

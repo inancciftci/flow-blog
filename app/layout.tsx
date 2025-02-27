@@ -9,7 +9,10 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  title: "Flow | Personal Blog",
+  title: {
+    template: "%s | Flow Blog",
+    default: "Welcome | Flow Blog",
+  },
   description: "Coded by Inanc, Designed by AliThemes",
 };
 

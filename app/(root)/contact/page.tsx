@@ -1,7 +1,12 @@
 import ContactForm from "@/components/ContactForm";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Contact",
+};
 
 const page = () => {
   return (

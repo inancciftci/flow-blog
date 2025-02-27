@@ -3,29 +3,13 @@
 import React, { useEffect, useState } from "react";
 import TrendingTopicsCard from "./TrendingTopicsCard";
 
-const TrendingTopics = ({
-  posts,
-  categories,
-}: {
-  posts: Post[];
-  categories: Category[];
-}) => {
+const TrendingTopics = ({ posts }: { posts: Post[] }) => {
   const [trendingTopics, setTrendingTopics] = useState<Post[]>([]);
   useEffect(() => {
-    const categoryMap = categories.reduce((acc, cat) => {
-      acc[cat.id] = cat.title;
-      return acc;
-    }, {} as Record<number, string>);
-
-    const enrichedPosts = posts.map((post: Post) => ({
-      ...post,
-      categoryTitle: categoryMap[post.category],
-    }));
-
     setTrendingTopics(
-      enrichedPosts.sort((a: Post, b: Post) => b.views - a.views).slice(0, 6)
+      posts.sort((a: Post, b: Post) => b.views - a.views).slice(0, 6)
     );
-  }, [categories, posts]);
+  }, [posts]);
   return (
     <section className="relative h-[100%]">
       <div className="w-[45%] h-[90%] bg-[#fff4ec] absolute top-[-2rem] -z-20 "></div>

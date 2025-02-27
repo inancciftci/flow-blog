@@ -1,7 +1,9 @@
 interface Category {
   title: string;
-  id: string;
-  created_at?: string;
+  id: number;
+  created_at: string;
+  cover_image: string;
+  slug: string;
 }
 
 interface Post {
@@ -12,7 +14,7 @@ interface Post {
   cover_image: string;
   category: number;
   views: number;
-  categoryTitle?: string;
+  categoryTitle: string;
   slug?: string;
 }
 

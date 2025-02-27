@@ -18,14 +18,29 @@ export async function GET(
 
     const { data, error } = await supabase
       .from("posts")
-      .select("*")
+      .select(
+        `id,
+        created_at, 
+      title, 
+      content,
+      slug, 
+      views, 
+      cover_image, 
+      category, 
+      category!inner(id, title)  `
+      )
       .eq("category", Number(categoryId));
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
+    const formattedData = data.map((post) => ({
+      ...post,
+      category: post.category.id,
+      categoryTitle: post.category.title,
+    }));
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json(formattedData, { status: 200 });
   } catch (err) {
     return NextResponse.json(
       { error: (err as Error).message },
