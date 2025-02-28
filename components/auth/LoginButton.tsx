@@ -1,23 +1,15 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-const LoginButton = () => {
-  const user = { user: 1 };
-  const router = useRouter();
-
+import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
+const LoginButton = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  console.log(user);
   if (!user) {
-    return <Button>Login</Button>;
+    return <Link href={"/login"}>Login</Link>;
   }
-  return (
-    <Button
-      variant="outline"
-      onClick={() => {
-        router.push("/sign-in");
-      }}
-    >
-      Logout
-    </Button>
-  );
+  return <Link href={"/"}>Logout ({user?.user_metadata?.username})</Link>;
 };
 
 export default LoginButton;

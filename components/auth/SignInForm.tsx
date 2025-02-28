@@ -1,62 +1,93 @@
+"use client";
+
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { Form, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { SignInSchema } from "@/lib/validations";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { signIn } from "@/app/auth/auth-actions";
+import { useRouter } from "next/navigation";
 
 export function SignInForm() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const form = useForm<z.infer<typeof SignInSchema>>({
+    resolver: zodResolver(SignInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof SignInSchema>) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    const res = await signIn(formData);
+    if (res.status === "success") {
+      alert("success");
+      router.push("/");
+    } else {
+      alert(res.status);
+    }
+
+    setLoading(false);
+  };
   return (
-    <Card className="">
-      <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form action="">
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="#"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input id="password" name="password" type="password" required />
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </div>
-        </form>
-        <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/signup" className="underline">
-            Sign up
-          </Link>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-[300px] py-10 space-y-8"
+      >
+        <div className="grid gap-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <Input {...field} type="email" placeholder="m@example.com" />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center">
+                  <FormLabel>Password</FormLabel>
+                  <Link href="#" className="ml-auto text-sm underline">
+                    Forgot password?
+                  </Link>
+                </div>
+                <Input
+                  {...field}
+                  type="password"
+                  placeholder="Enter your password"
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            disabled={loading}
+            type="submit"
+            className={`${
+              loading ? "bg-gray-600 text-white" : "bg-primary-500"
+            } rounded-md w-full px-12 py-3 text-sm font-medium `}
+          >
+            {loading ? "Loading..." : "Login"}
+          </Button>
         </div>
-      </CardContent>
-    </Card>
+      </form>
+    </Form>
   );
 }
