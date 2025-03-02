@@ -46,3 +46,22 @@ export const SignUpSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const UpdateImageAndNameSchema = z.object({
+  avatarUrl: z
+    .instanceof(File)
+    .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
+      message: "Image should be less than 5MB",
+    })
+    .optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+});
+
+export const UpdateBioSchema = z.object({
+  bio: z.string().min(30, "Bio must be at least 2 characters long"),
+});
+
+export const CommentSchema = z.object({
+  comment: z.string().min(10, "Comment must be at least 10 characters long"),
+});

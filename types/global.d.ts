@@ -22,3 +22,14 @@ interface DeleteCategoryResponse {
   error?: string;
   type?: string;
 }
+
+interface User {
+  id: number;
+  created_at: string;
+  email: string;
+  bio: string;
+  username: string;
+  avatar_url: string;
+  first_name: string;
+  last_name: string;
+}

@@ -1,15 +1,37 @@
-import { createClient } from "@/utils/supabase/server";
+import { getUserImage, signOut } from "@/app/auth/auth-actions";
 import Link from "next/link";
+import { Button } from "../ui/button";
+import Image from "next/image";
+
 const LoginButton = async () => {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  console.log(user);
-  if (!user) {
-    return <Link href={"/login"}>Login</Link>;
+  const { success, avatarUrl } = await getUserImage();
+
+  if (!success) {
+    return <Link href="/login">Login</Link>;
   }
-  return <Link href={"/"}>Logout ({user?.user_metadata?.username})</Link>;
+
+  return (
+    <div className="flex gap-4 items-center">
+      {avatarUrl ? (
+        <Link href={"/profile"}>
+          <Image
+            src={avatarUrl}
+            alt="User Profile"
+            width={50}
+            height={50}
+            className="rounded-full"
+          />
+        </Link>
+      ) : (
+        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+          <span className="text-gray-500 text-sm">No Image</span>
+        </div>
+      )}
+      <Button onClick={signOut} className="bg-primary-100">
+        Logout
+      </Button>
+    </div>
+  );
 };
 
 export default LoginButton;

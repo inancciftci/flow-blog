@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { Button } from "./ui/button";
 import LoginButton from "./auth/LoginButton";
 
 const routes = [

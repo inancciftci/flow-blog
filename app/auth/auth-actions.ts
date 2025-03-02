@@ -84,3 +84,24 @@ export async function signOut() {
   revalidatePath("/", "layout");
   redirect("/");
 }
+
+export async function getUserImage() {
+  const supabase = await createClient();
+  const { data: userData, error } = await supabase.auth.getUser();
+  if (error) {
+    return { success: false, message: "Error getting user data" };
+  }
+
+  const userId = userData.user.id;
+  const { data: userProfile, error: profileError } = await supabase
+    .from("user_profiles")
+    .select("avatar_url")
+    .eq("id", userId)
+    .single();
+
+  if (profileError || !userProfile) {
+    return { success: false, message: "Error fetching user image" };
+  }
+
+  return { success: true, avatarUrl: userProfile.avatar_url };
+}

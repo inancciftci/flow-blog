@@ -28,6 +28,11 @@ export const api = {
     },
   },
 
+  user: {
+    get: (id: string) =>
+      fetch(`${API_BASE_URL}/api/user/${id}`).then((res) => res.json()),
+  },
+
   posts: {
     getAll: () => fetch(`${API_BASE_URL}/api/post`).then((res) => res.json()),
 

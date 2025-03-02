@@ -35,11 +35,11 @@ const Footer = async () => {
               </div>
               <div className="flex gap-4 items-center">
                 <Input
-                  className="w-[20rem] bg-white p-6 font-bold z-[10]"
+                  className="w-[20rem] bg-white p-6 font-bold z-[2]"
                   type="email"
                   placeholder="Enter your email"
                 />
-                <Button className="p-6 button-primary z-[4]">Subscribe</Button>
+                <Button className="p-6 button-primary z-[2]">Subscribe</Button>
               </div>
             </div>
             <div className="relative grid place-items-end z-[1] max-md:absolute max-md:top-0 max-md:left-0 max-md:right-0 max-md:bottom-0">
