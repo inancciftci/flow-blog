@@ -6,6 +6,11 @@ import { CommentsProvider } from "@/context/CommentsContext";
 import { api } from "@/lib/api";
 import { getShortDescription } from "@/lib/helper";
 import { createClient } from "@/utils/supabase/server";
+import {
+  BookmarkIcon,
+  ChatBubbleBottomCenterIcon,
+} from "@heroicons/react/20/solid";
+import { LayoutDashboardIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -24,6 +29,8 @@ export default async function Layout({
 
   const bookmarks = await getUserBookmarks();
   const comments = await getUserComments();
+
+  console.log(bookmarks);
 
   const userProfile = await api.user.get(user.id);
   return (
@@ -77,14 +84,36 @@ export default async function Layout({
       </div>
       <div className="my-6 container">
         <div className="grid grid-cols-[20%_1fr] gap-10">
-          <div className="border-r-[2px] border-primary-500 pr-4">
-            <div className="flex flex-col">
-              <Link href={"/profile/comments"}>Comments</Link>
-              <Link href={"/profile/bookmarks"}>Bookmarks</Link>
+          <div className="border-r-[1px] border-primary-500">
+            <div className="flex flex-col text-sm h-full bg-primary-100">
+              <Link
+                className="flex gap-4 items-center p-4 border-b-[1px] hover:bg-primary-500"
+                href={"/profile"}
+              >
+                <LayoutDashboardIcon className="size-5 text-white" />
+                Dashboard
+              </Link>
+              <Link
+                className="flex gap-4 items-center p-4 border-b-[1px]"
+                href={"/profile/comments"}
+              >
+                <ChatBubbleBottomCenterIcon className="size-5 text-white" />
+                Comments
+              </Link>
+              <Link
+                className="flex gap-4 items-center p-4 "
+                href={"/profile/bookmarks"}
+              >
+                <BookmarkIcon className="size-5 text-white" />
+                Bookmarks
+              </Link>
             </div>
           </div>
           <div>
-            <CommentsProvider comments={comments?.data ?? []}>
+            <CommentsProvider
+              comments={comments?.data ?? []}
+              posts={bookmarks ? bookmarks.bookmarks : []}
+            >
               {children}
             </CommentsProvider>
           </div>

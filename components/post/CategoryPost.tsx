@@ -18,7 +18,7 @@ const CategoryPost = ({ post }: { post: Post }) => {
       </div>
       <div className="flex flex-col justify-around pr-4 py-4 gap-4">
         <div className="max-md:hidden">
-          <TagCard tag={post.categoryTitle} />
+          {post.categoryTitle && <TagCard tag={post.categoryTitle} />}
         </div>
         <Link
           href={`/blog/post/${post.slug}`}

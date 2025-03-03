@@ -60,8 +60,7 @@ export async function getPostComments(postId: number) {
       )
     `
     )
-    .eq("post_id", postId)
-    .order("created_at", { ascending: false });
+    .eq("post_id", postId);
 
   if (fetchError) {
     console.error("Error fetching comments:", fetchError.message);

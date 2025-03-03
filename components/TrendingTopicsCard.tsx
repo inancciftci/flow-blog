@@ -15,8 +15,7 @@ const TrendingTopicsCard = ({ post }: { post: Post }) => {
           alt={post?.title}
           fill
         />
-
-        <TagCard absoluteTop tag={post.categoryTitle} />
+        {post.categoryTitle && <TagCard absoluteTop tag={post.categoryTitle} />}
       </div>
       <div className="bg-white flex flex-col gap-4 p-8">
         <div className="flex gap-1 items-center ">

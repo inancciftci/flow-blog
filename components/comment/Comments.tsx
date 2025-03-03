@@ -62,8 +62,35 @@ const Comments = ({ postId }: { postId: number }) => {
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "comments" },
-        (payload) => {
-          setComments((prev) => [...prev, payload.new as Comment]);
+        async (payload) => {
+          try {
+            const newCommentId = payload.new.id;
+
+            const newCommentData = await getPostComments(postId);
+
+            const newComment = newCommentData.find(
+              (comment) => comment.id === newCommentId
+            );
+
+            if (newComment) {
+              const formattedComment: Comment = {
+                ...newComment,
+                user: newComment.user
+                  ? {
+                      name:
+                        newComment.user.first_name && newComment.user.last_name
+                          ? `${newComment.user.first_name} ${newComment.user.last_name}`
+                          : newComment.user.username ?? "Anonymous",
+                      avatar_url: newComment.user.avatar_url,
+                    }
+                  : undefined,
+              };
+
+              setComments((prev) => [...prev, formattedComment]);
+            }
+          } catch (error) {
+            console.error("Failed to fetch new comment data", error);
+          }
         }
       )
       .subscribe();

@@ -86,6 +86,12 @@ export function SignInForm() {
           >
             {loading ? "Loading..." : "Login"}
           </Button>
+          <span className="text-center">
+            If you don't have an account{" "}
+            <Link className=" text-primary-500 font-bold" href={"/register"}>
+              Sign Up
+            </Link>
+          </span>
         </div>
       </form>
     </Form>

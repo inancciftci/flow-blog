@@ -53,7 +53,21 @@ export async function getUserBookmarks() {
 
   const { data: bookmarksData, error: bookmarksError } = await supabase
     .from("bookmarks")
-    .select("id, post_id, posts(title,cover_image,views,created_at)")
+    .select(
+      `
+    id,
+    post_id,
+    post: post_id (
+    id,
+    cover_image,
+    title,
+    slug,
+    created_at,
+    content,
+    views
+    )
+  `
+    )
     .eq("user_id", userData.user.id);
 
   if (bookmarksError)

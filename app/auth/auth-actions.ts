@@ -24,10 +24,13 @@ export async function signUp(formData: FormData) {
     password: formData.get("password") as string,
   };
 
+  const redirectUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
   const { error, data } = await supabase.auth.signUp({
     email: credentials.email,
     password: credentials.password,
     options: {
+      emailRedirectTo: `${redirectUrl}/complete-registration`,
       data: {
         username: credentials.username,
       },

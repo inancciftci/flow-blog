@@ -20,12 +20,14 @@ const CommentsContext = createContext<Comment[] | null>(null);
 export const CommentsProvider = ({
   children,
   comments,
+  posts,
 }: {
   children: React.ReactNode;
   comments: Comment[];
+  posts: Post[];
 }) => {
   return (
-    <CommentsContext.Provider value={comments}>
+    <CommentsContext.Provider value={{ comments, posts }}>
       {children}
     </CommentsContext.Provider>
   );
