@@ -24,7 +24,7 @@ const PostCard = ({ post }: { post: Post }) => {
   return (
     <div className="p-2 bg-primary-100 rounded-sm">
       <div
-        className={`h-full w-full absolute z-10 top-0 left-0 bg-[rgba(241,245,249,0.5)] flex justify-center items-center ${
+        className={`h-full w-full fixed z-10 top-0 left-0 bg-[rgba(241,245,249,0.5)] flex justify-center items-center ${
           hidden ? "hidden" : ""
         }`}
       >
