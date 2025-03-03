@@ -13,13 +13,12 @@ const LoginButton = async () => {
   return (
     <div className="flex gap-4 items-center">
       {avatarUrl ? (
-        <Link href={"/profile"}>
+        <Link href={"/profile"} className="h-[30px] w-[30px] relative">
           <Image
             src={avatarUrl}
             alt="User Profile"
-            width={50}
-            height={50}
-            className="rounded-full"
+            fill
+            className="rounded-full object-cover"
           />
         </Link>
       ) : (

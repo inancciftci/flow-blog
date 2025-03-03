@@ -130,8 +130,16 @@ const Page = ({ params }: { params: { slug: string } }) => {
         className="flex flex-col gap-4"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
-      <CommentsWrapper postId={post?.id} />
-      <CommentPostFormWrapper postId={post?.id} />
+
+      <div className="bg-slate-100 shadow-lg border-[1px] border-primary-500 p-4 rounded-lg relative mt-[2rem]">
+        <h4 className="z-[-1] text-xl font-bold shadow-lg  mt-[-1rem] absolute top-[-1.3rem] right-[2rem] rounded-lg bg-primary-500 text-slate-700 p-2">
+          Comments
+        </h4>
+        <div className="flex flex-col gap-4">
+          <CommentsWrapper postId={post?.id} />
+          <CommentPostFormWrapper postId={post?.id} />
+        </div>
+      </div>
     </section>
   );
 };

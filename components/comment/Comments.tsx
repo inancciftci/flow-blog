@@ -1,4 +1,5 @@
 import { getPostComments } from "@/actions/comment-actions";
+import { supabase } from "@/lib/supabase";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -55,6 +56,21 @@ const Comments = ({ postId }: { postId: number }) => {
     };
 
     fetchComments();
+
+    const channel = supabase
+      .channel("comments")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "comments" },
+        (payload) => {
+          setComments((prev) => [...prev, payload.new as Comment]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [postId]);
 
   if (!comments || comments.length === 0) {
@@ -63,7 +79,6 @@ const Comments = ({ postId }: { postId: number }) => {
 
   return (
     <div className="space-y-4">
-      <h4 className="text-2xl font-bold">Comments</h4>
       {comments.map((comment) => (
         <div key={comment.id} className="p-4 border rounded-lg">
           <p className="text-sm text-gray-800">{comment.content}</p>
