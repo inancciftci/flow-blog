@@ -1,5 +1,6 @@
 import PostSidebar from "@/components/post/PostSidebar";
 import { api } from "@/lib/api";
+import { ReactNode } from "react";
 
 type Params = Promise<{ slug: string }>;
 
@@ -15,8 +16,8 @@ export default async function Layout({
   children,
   params,
 }: {
-  children: React.ReactNode;
-  params: { slug: string };
+  children: ReactNode;
+  params: Params; // Use the same Promise type here
 }) {
   const posts = await api.posts.getAll();
   const { slug } = await params;
