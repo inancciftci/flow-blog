@@ -1,12 +1,11 @@
 import { api } from "@/lib/api";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { ReactNode } from "react";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
+type Params = Promise<{ slug: string }>;
+
+export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
   const category = await api.categories.getBySlug(slug);
   return {
@@ -18,8 +17,8 @@ export default async function Layout({
   children,
   params,
 }: {
-  children: React.ReactNode;
-  params: { slug: string };
+  children: ReactNode;
+  params: Params;
 }) {
   const { slug } = await params;
   const category = await api.categories.getBySlug(slug);
@@ -52,8 +51,7 @@ export default async function Layout({
         </div>
       </div>
       <div className="bg-slate-100">
-        {" "}
-        <div className="container ">{children}</div>
+        <div className="container">{children}</div>
       </div>
     </div>
   );
