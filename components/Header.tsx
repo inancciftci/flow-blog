@@ -4,19 +4,20 @@ import Link from "next/link";
 import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import LoginButton from "./auth/LoginButton";
+import MobileNavbar from "./navbarMobile";
 
 const routes = [
   { id: 1, name: "Home", path: ROUTES.HOME },
   { id: 2, name: "About", path: ROUTES.ABOUT },
   { id: 3, name: "Contact", path: ROUTES.CONTACT },
   { id: 4, name: "Blog", path: ROUTES.BLOG },
-  { id: 5, name: "CMS", path: "/admin" },
+  { id: 5, name: "CMS", path: "/admin/posts" },
 ];
 
 const Header = () => {
   return (
     <header className="border-b-[1px] py-[1.5rem] max-md:py-[0.5rem] max-sm:bg-white border-slate-100">
-      <div className="flex gap-[5rem] max-sm:justify-center items-center container">
+      <div className="flex gap-[5rem] max-sm:hidden items-center container">
         <Image src="/logo.svg" alt="logo" width={100} height={100} />
         <div className="flex items-center justify-between w-full max-sm:hidden">
           <ul className="flex gap-[2rem]">
@@ -34,6 +35,9 @@ const Header = () => {
             <LoginButton />
           </div>
         </div>
+      </div>
+      <div className="hidden max-md:block">
+        <MobileNavbar />
       </div>
     </header>
   );

@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { signIn } from "@/app/auth/auth-actions";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export function SignInForm() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,7 +32,7 @@ export function SignInForm() {
     formData.append("password", data.password);
     const res = await signIn(formData);
     if (res.status === "success") {
-      alert("success");
+      toast.success("You're being redirected to homepage!");
       router.push("/");
     } else {
       alert(res.status);
@@ -87,7 +88,7 @@ export function SignInForm() {
             {loading ? "Loading..." : "Login"}
           </Button>
           <span className="text-center">
-            If you don't have an account{" "}
+            If you don&apos;t have an account{" "}
             <Link className=" text-primary-500 font-bold" href={"/register"}>
               Sign Up
             </Link>

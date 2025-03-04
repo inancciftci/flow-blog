@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings, Mail } from "lucide-react";
+import { Calendar, Inbox, Mail } from "lucide-react";
 
 import {
   Sidebar,
@@ -15,11 +15,6 @@ import Link from "next/link";
 // Menu items.
 const items = [
   {
-    title: "Dashboard",
-    url: "/admin",
-    icon: Home,
-  },
-  {
     title: "Posts",
     url: "/admin/posts",
     icon: Mail,
@@ -33,16 +28,6 @@ const items = [
     title: "Categories",
     url: "/admin/categories",
     icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
   },
 ];
 

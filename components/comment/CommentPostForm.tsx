@@ -22,9 +22,13 @@ const CommentPostForm = ({ postId }: { postId: number }) => {
   const onSubmit = async (data: z.infer<typeof CommentSchema>) => {
     try {
       setLoading(true);
-      await addComment(postId, data.comment);
-      toast.success("Your comment has been added!");
-      form.reset();
+      const { message } = await addComment(postId, data.comment);
+      if (message === "Error fetching user") {
+        toast.error("You need to be logged in to add a comment.");
+      } else {
+        toast.success("Your comment has been added!");
+        form.reset();
+      }
     } catch (error) {
       console.error(error);
     } finally {

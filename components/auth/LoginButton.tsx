@@ -1,12 +1,30 @@
-import { getUserImage, signOut } from "@/app/auth/auth-actions";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { getUserImage, signOut } from "@/app/auth/auth-actions";
 
-const LoginButton = async () => {
-  const { success, avatarUrl } = await getUserImage();
+const LoginButton = () => {
+  const [avatarUrl, setAvatarUrl] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  if (!success) {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const { success, avatarUrl } = await getUserImage();
+        setIsLoggedIn(success);
+        setAvatarUrl(avatarUrl);
+      } catch (error) {
+        console.error("Failed to fetch user data", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (!isLoggedIn) {
     return <Link href="/login">Login</Link>;
   }
 
