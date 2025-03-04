@@ -1,7 +1,5 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 
-export const dynamic = "force-dynamic";
-
 export const api = {
   categories: {
     getAll: () =>
