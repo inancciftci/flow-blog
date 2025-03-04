@@ -19,7 +19,9 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const Page = ({ params }: { params: { slug: string } }) => {
+type Params = Promise<{ slug: string }>;
+
+const Page = ({ params }: { params: Params }) => {
   const [post, setPost] = useState<Post>();
   const [category, setCategory] = useState<Category>();
   const [slug, setSlug] = useState<string>("");

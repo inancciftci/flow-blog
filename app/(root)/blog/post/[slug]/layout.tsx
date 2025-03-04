@@ -1,11 +1,9 @@
 import PostSidebar from "@/components/post/PostSidebar";
 import { api } from "@/lib/api";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
+type Params = Promise<{ slug: string }>;
+
+export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
   const post = await api.posts.getBySlug(slug);
   return {
