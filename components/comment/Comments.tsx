@@ -1,24 +1,18 @@
+"use client";
+
 import { getPostComments } from "@/actions/comment-actions";
 import { supabase } from "@/lib/supabase";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-type UserProfile = {
-  id: number;
-  first_name: string;
-  last_name: string;
-  avatar_url?: string;
-  username?: string;
-};
-
 type Comment = {
-  id: number;
+  id: string;
   content: string;
-  user_id: number;
+  user_id: string;
   created_at: string;
   user?: {
     name: string;
-    avatar_url?: string;
+    avatar_url?: string | null;
   };
 };
 
@@ -28,13 +22,7 @@ const Comments = ({ postId }: { postId: number }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentData: {
-          id: number;
-          content: string;
-          user_id: number;
-          created_at: string;
-          user: UserProfile | null;
-        }[] = await getPostComments(postId);
+        const commentData = await getPostComments(postId);
 
         const formattedComments: Comment[] = commentData.map((comment) => ({
           ...comment,
@@ -65,9 +53,7 @@ const Comments = ({ postId }: { postId: number }) => {
         async (payload) => {
           try {
             const newCommentId = payload.new.id;
-
             const newCommentData = await getPostComments(postId);
-
             const newComment = newCommentData.find(
               (comment) => comment.id === newCommentId
             );
@@ -86,7 +72,7 @@ const Comments = ({ postId }: { postId: number }) => {
                   : undefined,
               };
 
-              setComments((prev) => [...prev, formattedComment]);
+              setComments((prev) => [...(prev || []), formattedComment]);
             }
           } catch (error) {
             console.error("Failed to fetch new comment data", error);

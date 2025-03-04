@@ -1,6 +1,6 @@
 interface Category {
   title: string;
-  id: number;
+  id: string;
   created_at: string;
   cover_image: string;
   slug: string;
