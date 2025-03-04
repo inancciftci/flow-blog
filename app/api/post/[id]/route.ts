@@ -1,12 +1,12 @@
 import { supabase } from "@/lib/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+type Params = Promise<{ id: string }>;
+
+export async function DELETE(req: NextRequest, { params }: { params: Params }) {
   try {
-    const postId = params.id;
+    const { id } = await params;
+    const postId = id;
 
     if (!postId)
       return NextResponse.json({ error: "Missing post id" }, { status: 400 });

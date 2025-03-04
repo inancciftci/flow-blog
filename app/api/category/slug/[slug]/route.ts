@@ -1,10 +1,9 @@
 import { supabase } from "@/lib/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+type Params = Promise<{ slug: string }>;
+
+export async function GET(req: NextRequest, { params }: { params: Params }) {
   try {
     const { slug } = await params;
     const { data, error } = await supabase
