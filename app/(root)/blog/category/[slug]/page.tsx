@@ -4,19 +4,22 @@ import PostLoading from "@/components/ui/postloading";
 import { api } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 
-const Page = ({ params }: { params: { slug: string } }) => {
+type Params = Promise<{ slug: string }>;
+
+const Page = ({ params }: { params: Params }) => {
   const [categoryPosts, setCategoryPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategoryPosts = async () => {
-      const category = await api.categories.getBySlug(params.slug);
+      const { slug } = await params;
+      const category = await api.categories.getBySlug(slug);
       const posts = await api.posts.getByCategory(category.id);
       setCategoryPosts(posts);
       setLoading(false);
     };
     fetchCategoryPosts();
-  }, [params.slug]);
+  }, [params]);
 
   if (loading) {
     return (
