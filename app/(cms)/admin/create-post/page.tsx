@@ -1,6 +1,6 @@
 import CreatePostForm from "@/components/admin/CreatePostForm";
 import React from "react";
-
+export const runtime = "edge";
 const page = () => {
   return (
     <div className="flex flex-col">

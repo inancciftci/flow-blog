@@ -1,5 +1,7 @@
 import React from "react";
 
+export const runtime = "edge";
+
 const Page = () => {
   return (
     <div className="grid grid-cols-3 gap-10">

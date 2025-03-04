@@ -4,6 +4,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 
+export const runtime = "edge";
+
 export const metadata: Metadata = {
   title: "Contact",
 };

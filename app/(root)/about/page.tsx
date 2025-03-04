@@ -4,6 +4,7 @@ import Team from "@/components/about/Team";
 import Values from "@/components/about/Values";
 import { Metadata } from "next";
 import React from "react";
+export const runtime = "edge";
 
 export const metadata: Metadata = {
   title: "About",
