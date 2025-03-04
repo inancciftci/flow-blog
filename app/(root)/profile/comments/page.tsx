@@ -3,7 +3,8 @@
 import { useComments } from "@/context/CommentsContext";
 
 const CommentsPage = () => {
-  const { comments } = useComments();
+  const context = useComments();
+  const comments = context?.comments || [];
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">User Comments</h2>

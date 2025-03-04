@@ -72,5 +72,8 @@ export async function getUserBookmarks() {
 
   if (bookmarksError)
     return { success: false, message: "Error fetching bookmarks" };
-  return { success: true, bookmarks: bookmarksData };
+  return {
+    success: true,
+    bookmarks: bookmarksData as unknown as PostContextInterface[],
+  };
 }

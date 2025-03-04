@@ -27,10 +27,11 @@ export default async function Layout({
     return <div>User not found</div>;
   }
 
-  const bookmarks = await getUserBookmarks();
-  const comments = await getUserComments();
+  const bookmarksResponse = await getUserBookmarks();
+  const commentsResponse = await getUserComments();
 
-  console.log(bookmarks);
+  const bookmarks = bookmarksResponse.bookmarks;
+  const comments = commentsResponse.data ?? [];
 
   const userProfile = await api.user.get(user.id);
   return (
@@ -56,14 +57,12 @@ export default async function Layout({
               <div className="flex items-center justify-center gap-10">
                 <div className="bg-primary-100 rounded-md p-4 flex flex-col gap items-center">
                   <span className="font-bold text-5xl">
-                    {bookmarks?.bookmarks?.length}
+                    {bookmarks?.length}
                   </span>
                   <p className="text-slate-500 font-bold">Bookmarks</p>
                 </div>
                 <div className="bg-primary-100 rounded-md p-4 flex flex-col items-center">
-                  <span className="font-bold text-5xl">
-                    {comments?.data?.length}
-                  </span>
+                  <span className="font-bold text-5xl">{comments?.length}</span>
                   <p className="text-slate-500 font-bold">Comments</p>
                 </div>
               </div>
@@ -111,8 +110,8 @@ export default async function Layout({
           </div>
           <div>
             <CommentsProvider
-              comments={comments?.data ?? []}
-              posts={bookmarks ? bookmarks.bookmarks : []}
+              comments={comments ?? []}
+              posts={bookmarks ? bookmarks : []}
             >
               {children}
             </CommentsProvider>

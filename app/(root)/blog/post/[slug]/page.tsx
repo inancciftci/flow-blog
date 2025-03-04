@@ -25,7 +25,7 @@ const Page = ({ params }: { params: Params }) => {
   const [post, setPost] = useState<Post>();
   const [category, setCategory] = useState<Category>();
   const [slug, setSlug] = useState<string>("");
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<CommentInterface[]>([]);
 
   const bookmarkHandler = async (postId: number) => {
     const res = await bookmark(postId);

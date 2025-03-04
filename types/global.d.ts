@@ -33,3 +33,23 @@ interface User {
   first_name: string;
   last_name: string;
 }
+
+interface CommentInterface {
+  id: string;
+  content: string;
+  user_id: string;
+  created_at: string;
+  user: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    avatar_url?: string | null;
+    username?: string;
+  };
+}
+
+interface PostContextInterface {
+  id: string;
+  post_id: number;
+  post: Post;
+}

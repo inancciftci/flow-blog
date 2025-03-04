@@ -40,9 +40,11 @@ export async function addComment(postId: number, comment: string) {
     comment: insertedData,
   };
 }
-export async function getPostComments(postId: number) {
-  const supabase = await createClient();
 
+export async function getPostComments(
+  postId: number
+): Promise<CommentInterface[]> {
+  const supabase = await createClient();
   const { data: comments, error: fetchError } = await supabase
     .from("comments")
     .select(
@@ -66,8 +68,7 @@ export async function getPostComments(postId: number) {
     console.error("Error fetching comments:", fetchError.message);
     return [];
   }
-
-  return comments;
+  return comments as unknown as CommentInterface[];
 }
 
 export async function getUserComments() {
@@ -110,6 +111,6 @@ export async function getUserComments() {
   return {
     success: true,
     message: "Fetched user & comments successfully",
-    data: comments,
+    data: comments as unknown as CommentInterface[],
   };
 }

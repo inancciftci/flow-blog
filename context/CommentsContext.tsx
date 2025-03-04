@@ -2,20 +2,12 @@
 
 import React, { createContext, useContext } from "react";
 
-type Comment = {
-  id: number;
-  content: string;
-  user_id: number;
-  created_at: string;
-  user?: {
-    id: string;
-    first_name: string;
-    last_name: string;
-    avatar_url?: string;
-  };
-};
+interface CommentsContextType {
+  comments: CommentInterface[];
+  posts: PostContextInterface[];
+}
 
-const CommentsContext = createContext<Comment[] | null>(null);
+const CommentsContext = createContext<CommentsContextType | null>(null);
 
 export const CommentsProvider = ({
   children,
@@ -23,8 +15,8 @@ export const CommentsProvider = ({
   posts,
 }: {
   children: React.ReactNode;
-  comments: Comment[];
-  posts: Post[];
+  comments: CommentInterface[];
+  posts: PostContextInterface[];
 }) => {
   return (
     <CommentsContext.Provider value={{ comments, posts }}>

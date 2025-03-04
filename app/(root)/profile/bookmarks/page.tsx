@@ -4,8 +4,9 @@ import CategoryPost from "@/components/post/CategoryPost";
 import { useComments } from "@/context/CommentsContext";
 
 const BookmarksPage = () => {
-  const { posts } = useComments();
-  console.log(posts);
+  const context = useComments();
+  const posts = context?.posts || [];
+  console.log(`Posts: ${posts}`);
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Bookmarked Posts</h2>
