@@ -1,5 +1,6 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import TagCard from "./ui/tagcard";
 import ROUTES from "@/constants/routes";
@@ -16,8 +17,15 @@ const quickLinks = [
   { id: 5, name: "Help & Support", path: "/" },
 ];
 
-const Footer = async () => {
-  const categories = await api.categories.getAll();
+const Footer = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await api.categories.getAll();
+      setCategories(data);
+    };
+    fetchCategories();
+  }, [categories]);
   return (
     <footer>
       <div className="bg-primary-100">
