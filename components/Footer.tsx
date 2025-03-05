@@ -25,7 +25,7 @@ const Footer = () => {
       setCategories(data);
     };
     fetchCategories();
-  }, [categories]);
+  }, []);
   return (
     <footer>
       <div className="bg-primary-100">
