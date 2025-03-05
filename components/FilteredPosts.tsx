@@ -49,14 +49,15 @@ const FilteredPosts = ({ categories }: { categories: Category[] }) => {
   return (
     <div>
       <div className="flex items-center gap-4 bg-primary-500 rounded-md p-4">
-        <h3 className="text-2xl  font-bold">Categories: </h3>
-        {categories.map((cat: Category) => (
-          <TagFilterCard
-            onClick={() => updateParams({ category: `${cat.slug}` })}
-            category={cat}
-            key={cat.id}
-          />
-        ))}
+        <div className="flex flex-wrap items-center gap-4">
+          {categories.map((cat: Category) => (
+            <TagFilterCard
+              onClick={() => updateParams({ category: `${cat.slug}` })}
+              category={cat}
+              key={cat.id}
+            />
+          ))}
+        </div>
       </div>
       <div className="flex flex-col gap-4 my-4">
         {filteredPosts.map((p: Post) => (
