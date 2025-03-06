@@ -17,10 +17,9 @@ export default async function Layout({
   params,
 }: {
   children: ReactNode;
-  params: Params; // Use the same Promise type here
+  params: Params;
 }) {
-  const posts = await api.posts.getAll();
-  const { slug } = await params;
+  const [posts, { slug }] = await Promise.all([api.posts.getAll(), params]);
 
   return (
     <div className="grid grid-cols-[1fr_300px] container gap-10 max-md:grid-cols-1">
