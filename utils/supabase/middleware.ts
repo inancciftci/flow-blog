@@ -45,6 +45,12 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  if (!user && request.nextUrl.pathname.startsWith("/admin")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
+
   if (
     user &&
     (request.nextUrl.pathname.startsWith("/login") ||
@@ -55,9 +61,32 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (isPublicPage || isApiRoute) {
+  if (user) {
+    const { data: userProfile, error } = await supabase
+      .from("user_profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (error) {
+      console.error("Failed to fetch user role", error);
+      return supabaseResponse;
+    }
+
+    const userRole = userProfile?.role;
+
+    const isAdminPage = request.nextUrl.pathname.startsWith("/admin");
+
+    if (isAdminPage && userRole !== "admin") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/access-denied";
+      return NextResponse.redirect(url);
+    }
+
+    if (isPublicPage || isApiRoute) {
+      return supabaseResponse;
+    }
+
     return supabaseResponse;
   }
-
-  return supabaseResponse;
 }
