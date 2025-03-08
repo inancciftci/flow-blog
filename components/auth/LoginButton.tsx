@@ -5,10 +5,13 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { getUserImage, signOut } from "@/app/auth/auth-actions";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const LoginButton = () => {
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -24,8 +27,31 @@ const LoginButton = () => {
     fetchUserData();
   }, []);
 
+  const logOutHandle = async () => {
+    await signOut();
+    setIsLoggedIn(false);
+    setAvatarUrl(null);
+    toast.success("Logged out successfully");
+    router.push("/");
+  };
+
   if (!isLoggedIn) {
-    return <Link href="/login">Login</Link>;
+    return (
+      <div className="flex gap-2 items-center">
+        <Link
+          className="bg-primary-100 py-2 w-[80px] text-sm rounded-lg font-[600] text-center"
+          href="/login"
+        >
+          Login
+        </Link>
+        <Link
+          className="bg-primary-100 py-2 w-[80px] text-sm rounded-lg font-[600] text-center"
+          href={"/register"}
+        >
+          Sign Up
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -44,7 +70,7 @@ const LoginButton = () => {
           <span className="text-gray-500 text-sm">No Image</span>
         </div>
       )}
-      <Button onClick={signOut} className="bg-primary-100">
+      <Button onClick={logOutHandle} className="bg-primary-100">
         Logout
       </Button>
     </div>
