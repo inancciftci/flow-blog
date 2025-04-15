@@ -36,7 +36,7 @@ A modern, high-performance blog platform built with Next.js and Supabase.
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/flow-blog.git
+git clone https://github.com/inancciftci/flow-blog.git
 cd flow-blog
 ```
 
