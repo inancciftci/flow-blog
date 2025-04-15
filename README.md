@@ -92,7 +92,7 @@ flow-blog/
 
 Deploy on Vercel for the best performance and integration with Next.js:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/flow-blog)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/inancciftci/flow-blog)
 
 ## License
 
