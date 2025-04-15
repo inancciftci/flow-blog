@@ -1,9 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flow Blog
+
+A modern, high-performance blog platform built with Next.js and Supabase.
+
+![Flow Blog Logo](/public/logo.svg)
+
+## Features
+
+- 🚀 **Blazing Fast Performance** - Parallel API fetching, optimized components and skeleton loaders
+- 📝 **Rich Content Editing** - TipTap-powered editor with custom extensions
+- 👤 **User Authentication** - Secure login, registration and profile management
+- 📱 **Responsive Design** - Mobile-first approach for all screen sizes
+- 🔍 **Content Discovery** - Category filtering, trending topics, and editor's picks
+- 💬 **Interactive Comments** - Real-time comment system for engaging discussions
+- 🔖 **Bookmarks** - Save favorite articles for later reading
+- ⚙️ **Admin Dashboard** - Complete CMS for content and user management
+
+## Tech Stack
+
+- **Frontend**: Next.js 15 (App Router) with React 19
+- **Database & Auth**: Supabase
+- **Styling**: TailwindCSS with custom animations
+- **Forms**: React Hook Form with Zod validation
+- **Content**: TipTap rich text editor
+- **UI Components**: Radix UI primitives with custom styling
+- **Performance**: Turbopack for fast development builds
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18.17 or later
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/flow-blog.git
+cd flow-blog
+```
+
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+3. Set up environment variables
+```
+# Create a .env.local file with your Supabase credentials
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
+4. Start the development server
 ```bash
 npm run dev
 # or
@@ -14,23 +69,31 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) to view the application
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+flow-blog/
+├── actions/           # Server actions for data mutations
+├── app/               # Next.js App Router structure
+│   ├── (auth)/        # Authentication routes
+│   ├── (cms)/         # Admin dashboard & CMS
+│   ├── (root)/        # Main public-facing pages
+│   └── api/           # API routes
+├── components/        # React components
+│   ├── ui/            # Reusable UI components
+│   └── ...            # Feature-specific components
+├── lib/               # Utility functions and API helpers
+└── utils/             # Supabase client setup
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Deploy on Vercel for the best performance and integration with Next.js:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/flow-blog)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the LICENSE file for details.
