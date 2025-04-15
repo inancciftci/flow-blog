@@ -36,7 +36,7 @@ A modern, high-performance blog platform built with Next.js and Supabase.
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/flow-blog.git
+git clone https://github.com/inancciftci/flow-blog.git
 cd flow-blog
 ```
 
@@ -92,7 +92,7 @@ flow-blog/
 
 Deploy on Vercel for the best performance and integration with Next.js:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/flow-blog)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/inancciftci/flow-blog)
 
 ## License
 
