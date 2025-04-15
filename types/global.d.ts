@@ -39,6 +39,7 @@ interface CommentInterface {
   content: string;
   user_id: string;
   created_at: string;
+  post_id?: number;
   user: {
     id: string;
     first_name: string;
@@ -46,6 +47,10 @@ interface CommentInterface {
     avatar_url?: string | null;
     username?: string;
   };
+}
+
+interface Window {
+  initialComments?: Record<number, CommentInterface[]>;
 }
 
 interface PostContextInterface {

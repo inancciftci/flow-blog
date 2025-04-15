@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import HeroCard from "./HeroCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { motion, AnimatePresence } from "framer-motion";
-import PostLoading from "./ui/postloading";
+import SkeletonHero from "./ui/skeleton-hero";
 
 const Hero = ({ posts }: { posts: Post[] }) => {
   const [featuredPosts, setFeaturedPosts] = useState<Post[]>([]);
@@ -51,7 +51,7 @@ const Hero = ({ posts }: { posts: Post[] }) => {
 
   return (
     <div className="relative flex items-center justify-center min-h-[80vh]">
-      {featuredPosts.length === 0 && <PostLoading />}
+      {featuredPosts.length === 0 && <SkeletonHero />}
       <div className="w-[40%]  bg-[#fff4ec] absolute right-0 top-[-15rem] -z-20"></div>
       <div className="flex items-center max-md:my-[1rem] my-[2.5rem]">
         <ChevronLeftIcon

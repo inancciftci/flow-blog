@@ -33,8 +33,11 @@ const HeroCard = ({ post }: HeroCardProps) => {
         <Image
           className="object-cover aspect-square"
           src={post.cover_image}
-          alt="post image"
+          alt={post.title}
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, 50vw"
+          loading="eager"
         />
       </div>
     </motion.div>

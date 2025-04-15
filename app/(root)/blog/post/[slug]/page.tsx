@@ -48,13 +48,56 @@ const Page = ({ params }: { params: Params }) => {
   useEffect(() => {
     const fetchPostAndCategory = async () => {
       try {
-        const postData = await api.posts.getBySlug(slug);
-        const comments = await getPostComments(postData.id);
-        const categoryData = await api.categories.getById(postData.category);
-        setPost(postData);
-        setCategory(categoryData);
-        setComments(comments);
-        await api.posts.incrementView(postData.id);
+        // Try to get from localStorage cache first
+        const cachedPostData = localStorage.getItem(`post_${slug}`);
+        let postData;
+        
+        if (cachedPostData) {
+          postData = JSON.parse(cachedPostData);
+          setPost(postData);
+          
+          // Still get fresh category and comments data
+          const [commentsData, categoryData] = await Promise.all([
+            getPostComments(postData.id),
+            api.categories.getById(postData.category)
+          ]);
+          
+          setCategory(categoryData);
+          setComments(commentsData);
+          
+          // Make window.initialComments available for Comments component
+          if (typeof window !== 'undefined') {
+            if (!window.initialComments) window.initialComments = {};
+            window.initialComments[postData.id] = commentsData;
+          }
+        } else {
+          // Nothing cached, get everything fresh
+          postData = await api.posts.getBySlug(slug);
+          
+          // Parallelize dependent API calls
+          const [commentsData, categoryData] = await Promise.all([
+            getPostComments(postData.id),
+            api.categories.getById(postData.category)
+          ]);
+          
+          setPost(postData);
+          setCategory(categoryData);
+          setComments(commentsData);
+          
+          // Cache for future use
+          localStorage.setItem(`post_${slug}`, JSON.stringify(postData));
+          
+          // Make window.initialComments available for Comments component
+          if (typeof window !== 'undefined') {
+            if (!window.initialComments) window.initialComments = {};
+            window.initialComments[postData.id] = commentsData;
+          }
+        }
+        
+        // Don't await view increment - fire and forget
+        api.posts.incrementView(postData.id).catch(err => 
+          console.error("Error incrementing view:", err)
+        );
       } catch (err) {
         console.error("Error fetching post:", err);
       }
@@ -62,11 +105,7 @@ const Page = ({ params }: { params: Params }) => {
     if (slug) fetchPostAndCategory();
   }, [slug]);
   if (!post || !category) {
-    return (
-      <div className="h-[100vh]">
-        <PostLoading />
-      </div>
-    );
+    return <PostLoading />;
   }
   return (
     <section className="flex flex-col gap-10">
@@ -126,6 +165,9 @@ const Page = ({ params }: { params: Params }) => {
           alt="Cover Image"
           className="object-cover"
           src={post.cover_image}
+          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+          loading="eager"
         />
       </div>
       <div

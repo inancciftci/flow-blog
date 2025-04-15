@@ -10,9 +10,33 @@ const PostSidebar = ({ posts, slug }: { posts: Post[]; slug: string }) => {
     .slice(0, 4);
   useEffect(() => {
     const fetchCategoryPosts = async () => {
-      const postData = await api.posts.getBySlug(slug);
-      const posts = await api.posts.getByCategory(postData?.category);
-      setCategoryPosts(posts.slice(0, 4));
+      try {
+        // Get cached post first from localStorage if available
+        const cachedPostData = localStorage.getItem(`post_${slug}`);
+        let postData;
+        
+        if (cachedPostData) {
+          postData = JSON.parse(cachedPostData);
+        } else {
+          postData = await api.posts.getBySlug(slug);
+          // Cache for future use
+          localStorage.setItem(`post_${slug}`, JSON.stringify(postData));
+        }
+        
+        // Get cached category posts if available
+        const cachedCategoryPosts = localStorage.getItem(`category_posts_${postData.category}`);
+        
+        if (cachedCategoryPosts) {
+          setCategoryPosts(JSON.parse(cachedCategoryPosts).slice(0, 4));
+        } else {
+          const categoryPosts = await api.posts.getByCategory(postData?.category);
+          // Cache for future use
+          localStorage.setItem(`category_posts_${postData.category}`, JSON.stringify(categoryPosts));
+          setCategoryPosts(categoryPosts.slice(0, 4));
+        }
+      } catch (error) {
+        console.error("Error fetching category posts:", error);
+      }
     };
     fetchCategoryPosts();
   }, [slug]);

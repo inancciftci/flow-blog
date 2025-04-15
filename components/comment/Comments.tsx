@@ -19,32 +19,44 @@ type Comment = {
 const Comments = ({ postId }: { postId: number }) => {
   const [comments, setComments] = useState<Comment[] | null>(null);
 
+  // Helper function for comment formatting
+  const formatComment = (comment) => ({
+    ...comment,
+    user: comment.user
+      ? {
+          name:
+            comment.user.first_name && comment.user.last_name
+              ? `${comment.user.first_name} ${comment.user.last_name}`
+              : comment.user.username ?? "Anonymous",
+          avatar_url: comment.user.avatar_url,
+        }
+      : undefined,
+  });
+
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const commentData = await getPostComments(postId);
+    // Try to get from page props first (already fetched in parent component)
+    if (window.initialComments && window.initialComments[postId]) {
+      const cachedComments = window.initialComments[postId].map(formatComment);
+      setComments(cachedComments);
+    } else {
+      // Fetch comments only if not provided in props
+      const fetchComments = async () => {
+        try {
+          const commentData = await getPostComments(postId);
+          const formattedComments = commentData.map(formatComment);
+          setComments(formattedComments);
+          
+          // Cache for potential reuse
+          if (!window.initialComments) window.initialComments = {};
+          window.initialComments[postId] = commentData;
+        } catch (error) {
+          console.error("Failed to fetch comments", error);
+        }
+      };
+      fetchComments();
+    }
 
-        const formattedComments: Comment[] = commentData.map((comment) => ({
-          ...comment,
-          user: comment.user
-            ? {
-                name:
-                  comment.user.first_name && comment.user.last_name
-                    ? `${comment.user.first_name} ${comment.user.last_name}`
-                    : comment.user.username ?? "Anonymous",
-                avatar_url: comment.user.avatar_url,
-              }
-            : undefined,
-        }));
-
-        setComments(formattedComments);
-      } catch (error) {
-        console.error("Failed to fetch comments", error);
-      }
-    };
-
-    fetchComments();
-
+    // Set up realtime subscription for new comments
     const channel = supabase
       .channel("comments")
       .on(
@@ -52,30 +64,15 @@ const Comments = ({ postId }: { postId: number }) => {
         { event: "INSERT", schema: "public", table: "comments" },
         async (payload) => {
           try {
-            const newCommentId = payload.new.id;
-            const newCommentData = await getPostComments(postId);
-            const newComment = newCommentData.find(
-              (comment) => comment.id === newCommentId
-            );
-
-            if (newComment) {
-              const formattedComment: Comment = {
-                ...newComment,
-                user: newComment.user
-                  ? {
-                      name:
-                        newComment.user.first_name && newComment.user.last_name
-                          ? `${newComment.user.first_name} ${newComment.user.last_name}`
-                          : newComment.user.username ?? "Anonymous",
-                      avatar_url: newComment.user.avatar_url,
-                    }
-                  : undefined,
-              };
-
-              setComments((prev) => [...(prev || []), formattedComment]);
+            // More efficient approach: only fetch the new comment directly
+            // This assumes we can identify the comment's post id from payload
+            if (payload.new && payload.new.post_id === postId) {
+              // Optimistic update with available data
+              const newComment = formatComment(payload.new);
+              setComments((prev) => [...(prev || []), newComment]);
             }
           } catch (error) {
-            console.error("Failed to fetch new comment data", error);
+            console.error("Failed to process new comment", error);
           }
         }
       )
